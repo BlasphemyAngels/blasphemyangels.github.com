@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+    </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-apple-touch.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="正则表达式,lex," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="承影" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="正文&amp;ensp;&amp;ensp;&amp;ensp;PLY是由python实现的编译器构建工具，其中包含lex和yacc两个模块。lex.py模块用来将输入字符通过一系列的正则表达式分解成标记序列，yacc.py通过一些上下文无关的文法来识别编程语言语法。yacc.py使用LR解析法，并使用LALR(1)算法（默认）或者SLR算法生成分析表。 &amp;ensp;&amp;ensp;&amp;ensp;本文主要介绍lex.py，因为">
+<meta name="keywords" content="正则表达式,lex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lex模块的简单使用">
+<meta property="og:url" content="http://augustineccl.com/2017/07/25/2017-07-25-lex/index.html">
+<meta property="og:site_name" content="承影">
+<meta property="og:description" content="正文&amp;ensp;&amp;ensp;&amp;ensp;PLY是由python实现的编译器构建工具，其中包含lex和yacc两个模块。lex.py模块用来将输入字符通过一系列的正则表达式分解成标记序列，yacc.py通过一些上下文无关的文法来识别编程语言语法。yacc.py使用LR解析法，并使用LALR(1)算法（默认）或者SLR算法生成分析表。 &amp;ensp;&amp;ensp;&amp;ensp;本文主要介绍lex.py，因为">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-25T02:22:05.455Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lex模块的简单使用">
+<meta name="twitter:description" content="正文&amp;ensp;&amp;ensp;&amp;ensp;PLY是由python实现的编译器构建工具，其中包含lex和yacc两个模块。lex.py模块用来将输入字符通过一系列的正则表达式分解成标记序列，yacc.py通过一些上下文无关的文法来识别编程语言语法。yacc.py使用LR解析法，并使用LALR(1)算法（默认）或者SLR算法生成分析表。 &amp;ensp;&amp;ensp;&amp;ensp;本文主要介绍lex.py，因为">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://augustineccl.com/2017/07/25/2017-07-25-lex/"/>
+
+
+
+
+
+  <title>Lex模块的简单使用 | 承影</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?03ef3974d5c6181e6730d0d9fdc56b1a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">承影</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://augustineccl.com/2017/07/25/2017-07-25-lex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Artemis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="承影">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Lex模块的简单使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T14:27:02+08:00">
+                2017-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/07/25/2017-07-25-lex/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/07/25/2017-07-25-lex/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/07/25/2017-07-25-lex/" class="leancloud_visitors" data-flag-title="Lex模块的简单使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,394
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&ensp;&ensp;&ensp;<a href="http://www.dabeaz.com/ply/ply.html" target="_blank" rel="noopener">PLY</a>是由python实现的编译器构建工具，其中包含<code>lex</code>和<code>yacc</code>两个模块。<code>lex.py</code>模块用来将输入字符通过一系列的正则表达式分解成标记序列，<code>yacc.py</code>通过一些上下文无关的文法来识别编程语言语法。<code>yacc.py</code>使用<code>LR</code>解析法，并使用<code>LALR(1)</code>算法（默认）或者<code>SLR</code>算法生成分析表。</p>
+<p>&ensp;&ensp;&ensp;本文主要介绍<code>lex.py</code>，因为我最近用到它做一些字符串方面的数据处理问题，跟编译没关系，也就没看<code>yacc</code>。</p>
+<a id="more"></a>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>&ensp;&ensp;&ensp;安装很简单：</p>
+<ul>
+<li>pip 安装：<code>pip install ply</code></li>
+<li>源码：<a href="http://www.dabeaz.com/ply/" target="_blank" rel="noopener">PLY main</a>下载完后使用<code>tar -zxvf</code>解压后可以复制里面的<code>lex.py</code>出来引用就可以了。</li>
+</ul>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>&ensp;&ensp;&ensp;<code>lex.py</code>将输入的串解析为一系列自定义的字符串。如输入串是下面：</p>
+<p><code>for i range(1, 10)</code></p>
+<p>&ensp;&ensp;&ensp;<code>lex</code>将串分解为标记：</p>
+<p><code>for</code>, <code>i</code>, <code>range</code>, <code>(</code>, <code>1</code>, <code>,</code>, <code>10</code>, <code>)</code></p>
+<p>&ensp;&ensp;&ensp;为了更好的区分和使用标记，每类标记取一个类型名字(type):</p>
+<p>如：</p>
+<p>&ensp;&ensp;&ensp;<code>ID</code>, <code>NUMBER</code>, <code>LPAREN</code>, <code>RPAREN</code>, 等</p>
+<p>那么原始串就是：</p>
+<p>(<code>&#39;FOR&#39;</code>, <code>&#39;for&#39;</code>), (<code>&#39;ID&#39;</code>, <code>&#39;x&#39;</code>), (<code>&#39;IN&#39;</code>, <code>&#39;in&#39;</code>), (<code>&#39;RANGE&#39;</code>, <code>&#39;range&#39;</code>), (<code>&#39;LPAREN&#39;</code>, <code>&#39;(&#39;</code>), (<code>&#39;NUMBER&#39;</code>, ‘1’), …</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ply.lex <span class="keyword">as</span> lex</span><br><span class="line"></span><br><span class="line"><span class="comment"># List of token names.   This is always required</span></span><br><span class="line">tokens = (</span><br><span class="line">   <span class="string">'NUMBER'</span>,</span><br><span class="line">   <span class="string">'PLUS'</span>,</span><br><span class="line">   <span class="string">'MINUS'</span>,</span><br><span class="line">   <span class="string">'TIMES'</span>,</span><br><span class="line">   <span class="string">'DIVIDE'</span>,</span><br><span class="line">   <span class="string">'LPAREN'</span>,</span><br><span class="line">   <span class="string">'RPAREN'</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Regular expression rules for simple tokens</span></span><br><span class="line">t_PLUS    = <span class="string">r'\+'</span></span><br><span class="line">t_MINUS   = <span class="string">r'-'</span></span><br><span class="line">t_TIMES   = <span class="string">r'\*'</span></span><br><span class="line">t_DIVIDE  = <span class="string">r'/'</span></span><br><span class="line">t_LPAREN  = <span class="string">r'\('</span></span><br><span class="line">t_RPAREN  = <span class="string">r'\)'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A regular expression rule with some action code</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\d+'</span></span><br><span class="line">    t.value = int(t.value)</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define a rule so we can track line numbers</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_newline</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\n+'</span></span><br><span class="line">    t.lexer.lineno += len(t.value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A string containing ignored characters (spaces and tabs)</span></span><br><span class="line">t_ignore  = <span class="string">' \t'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Error handling rule</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_error</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Illegal character '%s'"</span> % t.value[<span class="number">0</span>]</span><br><span class="line">    t.lexer.skip(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build the lexer</span></span><br><span class="line">lexer = lex.lex()</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;上面的方式定义好了<code>lex</code>，下面的代码使用它:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Test it out</span></span><br><span class="line">data = <span class="string">'... '</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Give the lexer some input</span></span><br><span class="line">lexer.input(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Tokenize</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    tok = lexer.token()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> tok: <span class="keyword">break</span>      <span class="comment"># No more input</span></span><br><span class="line">    <span class="keyword">print</span> tok</span><br><span class="line"><span class="keyword">for</span> tok <span class="keyword">in</span> lexer:</span><br><span class="line">    <span class="keyword">print</span> tok</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;上面给出了两种迭代方式。</p>
+<p>&ensp;&ensp;&ensp;由<code>lexer.token()</code>方法返回的标记是LexToken类型的实例，拥有<code>tok.type</code>,<code>tok.value</code>,<code>tok.lineno</code>和<code>tok.lexpos</code>属性，其中<code>tok.type</code>和<code>tok.value</code>分别代表标记的类型和值一个<code>t.type</code>的属性（字符串表示）来表示标记的类型名称，<code>t.value</code>是标记值（匹配的实际的字符串），<code>t.lineno</code>表示当前在源输入串中的作业行，<code>t.lexpos</code>表示标记相对于输入串起始位置的偏移</p>
+<h4 id="标记列表"><a href="#标记列表" class="headerlink" title="标记列表"></a>标记列表</h4><p>&ensp;&ensp;&ensp;上述代码中声明了一个标记列表，标记列表可以人为给每种类型标记起个名字，然后在后面方便使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tokens = (</span><br><span class="line">   <span class="string">'NUMBER'</span>,</span><br><span class="line">   <span class="string">'PLUS'</span>,</span><br><span class="line">   <span class="string">'MINUS'</span>,</span><br><span class="line">   <span class="string">'TIMES'</span>,</span><br><span class="line">   <span class="string">'DIVIDE'</span>,</span><br><span class="line">   <span class="string">'LPAREN'</span>,</span><br><span class="line">   <span class="string">'RPAREN'</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="标记的规则"><a href="#标记的规则" class="headerlink" title="标记的规则"></a>标记的规则</h4><p>&ensp;&ensp;&ensp;每种标记用一个正则表达式规则来表示，每个规则需要以<code>t_</code>开头声明，表示该声明是对标记的规则定义。对于简单的标记，可以定义成这样（在Python中使用raw string能比较方便的书写正则表达式）：<br><code>t_PLUS = r&#39;\+&#39;</code></p>
+<p>&ensp;&ensp;&ensp;这里，紧跟在<code>t_</code>后面的单词，必须跟标记列表中的某个标记名称对应。如果需要执行动作的话，规则可以写成一个方法。例如，下面的规则匹配数字字串，并且将匹配的字符串转化成<code>Python</code>的整型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\d+'</span></span><br><span class="line">    t.value = int(t.value)</span><br><span class="line">    <span class="keyword">return</span> t</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;如果使用方法的话，正则表达式写成方法的文档字符串。方法总是需要接受一个<code>LexToken</code>实例的参数，该实例有一些属性（上面已经介绍）。方法可以在方法体里面修改这些属性。记住如果再方法中改变了属性，那么要返回结果token（如上面代码中的<code>return  t</code>)，否则，标记将被丢弃。</p>
+<p>&ensp;&ensp;&ensp;在<code>lex</code>内部，<code>lex</code>.py用re模块处理模式匹配，在构造最终的完整的正则式的时候，用户提供的规则按照下面的顺序加入：</p>
+<ul>
+<li>所有由方法定义的标记规则，按照他们的出现顺序依次加入</li>
+<li>由字符串变量定义的标记规则按照其正则式长度倒序后，依次加入（长的先入）</li>
+</ul>
+<p>&ensp;&ensp;&ensp;顺序的约定对于精确匹配是必要的。比如，如果你想区分<code>=</code>和<code>==</code>，你需要确保<code>==</code>优先检查。如果用字符串来定义这样的表达式的话，通过将较长的正则式先加入，可以帮助解决这个问题。用方法定义标记，可以显示地控制哪个规则优先检查。</p>
+<h4 id="标记的值"><a href="#标记的值" class="headerlink" title="标记的值"></a>标记的值</h4><p>&ensp;&ensp;&ensp;标记被<code>lex</code>返回后，它们的值被保存在<code>value</code>属性中。正常情况下，<code>value</code>是匹配的实际文本。事实上，<code>value</code>可以被赋为任何<code>Python</code>支持的类型。例如，当扫描到标识符的时候，你可能不仅需要返回标识符的名字，还需要返回其在符号表中的位置，可以像下面这样写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_ID</span><span class="params">(t)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment"># Look up symbol table information and return a tuple</span></span><br><span class="line">    t.value = (t.value, symbol_lookup(t.value))</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> t</span><br></pre></td></tr></table></figure>
+<h4 id="丢弃标记"><a href="#丢弃标记" class="headerlink" title="丢弃标记"></a>丢弃标记</h4><p>&ensp;&ensp;&ensp;想丢弃像注释之类的标记，只要不返回<code>value</code>就行了，像这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_COMMENT</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\#.*'</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># No return value. Token discarded</span></span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;为标记声明添加<code>ignore_</code>前缀同样可以达到目的：</p>
+<p><code>t_ignore_COMMENT = r&#39;\#.*&#39;</code></p>
+<p>&ensp;&ensp;&ensp;如果有多种文本需要丢弃，建议使用方法来定义规则，因为方法能够提供更精确的匹配优先级控制（方法根据出现的顺序，而字符串的正则表达式依据正则表达式的长度）</p>
+<h4 id="行号和位置信息"><a href="#行号和位置信息" class="headerlink" title="行号和位置信息"></a>行号和位置信息</h4><p>&ensp;&ensp;&ensp;默认情况下，<code>lex.py</code>是不提供行号的。因为<code>lex.py</code>根本不知道何为”行”的概念（换行符本身也作为文本的一部分）。不过，可以通过写一个特殊的规则来记录行号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_newline</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\n+'</span></span><br><span class="line">    t.lexer.lineno += len(t.value)</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;在这个规则中，当前<code>lexer</code>对象<code>t.lexer</code>的<code>lineno</code>属性被修改了，而且空行被简单的丢弃了，因为没有任何的返回。</p>
+<p>&ensp;&ensp;&ensp;<code>lex.py</code>也不自动做列跟踪。但是，位置信息被记录在了每个标记对象的<code>lexpos</code>属性中，这样，就有可能来计算列信息了。例如：每当遇到新行的时候就重置列值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Compute column.</span></span><br><span class="line"><span class="comment">#     input is the input text string</span></span><br><span class="line"><span class="comment">#     token is a token instance</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_column</span><span class="params">(input,token)</span>:</span></span><br><span class="line">    last_cr = input.rfind(<span class="string">'\n'</span>,<span class="number">0</span>,token.lexpos)</span><br><span class="line">    <span class="keyword">if</span> last_cr &lt; <span class="number">0</span>:</span><br><span class="line">        last_cr = <span class="number">0</span></span><br><span class="line">    column = (token.lexpos - last_cr) + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> column</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;通常，计算列的信息是为了指示上下文的错误位置，所以只在必要时有用。</p>
+<h4 id="忽略字符"><a href="#忽略字符" class="headerlink" title="忽略字符"></a>忽略字符</h4><p>&ensp;&ensp;&ensp;<code>t_ignore</code>规则比较特殊，是<code>lex.py</code>所保留用来忽略字符的，通常用来跳过空白或者不需要的字符。虽然可以通过定义像<code>t_newline()</code>这样的规则来完成相同的事情，不过使用<code>t_ignore</code>能够提供较好的词法分析性能，因为相比普通的正则式，它被特殊化处理了。</p>
+<h4 id="字面字符"><a href="#字面字符" class="headerlink" title="字面字符"></a>字面字符</h4><p>&ensp;&ensp;&ensp;字面字符可以通过在词法模块中定义一个literals变量，例如：</p>
+<p><code>literals = [ &#39;+&#39;,&#39;-&#39;,&#39;*&#39;,&#39;/&#39; ]</code></p>
+<p>或者：</p>
+<p><code>literals = &quot;+-*/&quot;</code></p>
+<p>&ensp;&ensp;&ensp;字面字符是指单个字符，表示把字符本身作为标记，标记的type和value都是字符本身。不过，字面字符是在其他正则式之后被检查的，因此如果有规则是以这些字符开头的，那么这些规则的优先级较高。</p>
+<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><p>&ensp;&ensp;&ensp;最后，在词法分析中遇到非法字符时，<code>t_error()</code>用来处理这类错误。这种情况下，<code>t.value</code>包含了余下还未被处理的输入字串，在之前的例子中，错误处理方法是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Error handling rule</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_error</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Illegal character '%s'"</span> % t.value[<span class="number">0</span>]</span><br><span class="line">    t.lexer.skip(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;这个例子中，我们只是简单的输出不合法的字符，并且通过调用<code>t.lexer.skip(1)</code>跳过一个字符。</p>
+<h4 id="构建使用lexer"><a href="#构建使用lexer" class="headerlink" title="构建使用lexer"></a>构建使用lexer</h4><p>&ensp;&ensp;&ensp;函数<code>lex.lex()</code>使用Python的反射机制读取调用上下文中的正则表达式，来创建<code>lexer</code>。<code>lexer</code>一旦创建好，有两个方法可以用来控制<code>lexer</code>对象：</p>
+<ul>
+<li><code>lexer.input(data)</code> 重置<code>lexer</code>和输入字串</li>
+<li><code>lexer.token()</code> 返回下一个<code>LexToken</code>类型的标记实例，如果进行到输入字串的尾部时将返回<code>None</code></li>
+</ul>
+<p>&ensp;&ensp;&ensp;推荐直接在<code>lex()</code>函数返回的<code>lexer</code>对象上调用上述接口，尽管也可以向下面这样用模块级别的<code>lex.input()</code>和<code>lex.token()</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">lex.lex()</span><br><span class="line">lex.input(sometext)</span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    tok = lex.token()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> tok: <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">print</span> tok</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;在这个例子中，<code>lex.input()</code>和<code>lex.token()</code>是模块级别的方法，在lex模块中，<code>input()</code>和<code>token()</code>方法绑定到最新创建的<code>lexer</code>对象的对应方法上。最好不要这样用，因为这种接口可能不知道在什么时候就失效。</p>
+<h4 id="TOKEN装饰"><a href="#TOKEN装饰" class="headerlink" title="@TOKEN装饰"></a><code>@TOKEN</code>装饰</h4><p>&ensp;&ensp;&ensp;在一些应用中，你可能需要定义一系列辅助的记号来构建复杂的正则表达式，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">digit            = <span class="string">r'([0-9])'</span></span><br><span class="line">nondigit         = <span class="string">r'([_A-Za-z])'</span></span><br><span class="line">identifier       = <span class="string">r'('</span> + nondigit + <span class="string">r'('</span> + digit + <span class="string">r'|'</span> + nondigit + <span class="string">r')*)'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_ID</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="comment"># want docstring to be identifier above. ?????</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;在这个例子中，我们希望<code>ID</code>的规则引用上面的已有的变量。然而，使用文档字符串无法做到，为了解决这个问题，你可以使用<code>@TOKEN</code>装饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> ply.lex <span class="keyword">import</span> TOKEN</span><br><span class="line"></span><br><span class="line"><span class="meta">@TOKEN(identifier)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_ID</span><span class="params">(t)</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;装饰器可以将<code>identifier</code>关联到<code>t_ID()</code>的文档字符串上以使<code>lex.py</code>正常工作，一种等价的做法是直接给文档字符串赋值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_ID</span><span class="params">(t)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">t_ID.__doc__ = identifier</span><br></pre></td></tr></table></figure>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>&ensp;&ensp;&ensp;如果想要调试，可以使<code>lex()</code>运行在调试模式：</p>
+<p><code>lexer = lex.lex(debug=1)</code></p>
+<p>&ensp;&ensp;&ensp;这将打出一些调试信息，包括添加的规则、最终的正则表达式和词法分析过程中得到的标记。</p>
+<p>&ensp;&ensp;&ensp;除此之外，<code>lex.py</code>有一个简单的主函数，不但支持对命令行参数输入的字串进行扫描，还支持命令行参数指定的文件名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">     lex.runmain()</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;想要了解高级调试的详情，请移步至最后的高级调试部分。</p>
+<h4 id="其他方式定义词法规则"><a href="#其他方式定义词法规则" class="headerlink" title="其他方式定义词法规则"></a>其他方式定义词法规则</h4><p>&ensp;&ensp;&ensp;上面的例子，词法分析器都是在单个的Python模块中指定的。如果你想将标记的规则放到不同的模块，使用<code>module</code>关键字参数。例如，你可能有一个专有的模块，包含了标记的规则：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># module: tokrules.py</span></span><br><span class="line"><span class="comment"># This module just contains the lexing rules</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># List of token names.   This is always required</span></span><br><span class="line">tokens = (</span><br><span class="line">   <span class="string">'NUMBER'</span>,</span><br><span class="line">   <span class="string">'PLUS'</span>,</span><br><span class="line">   <span class="string">'MINUS'</span>,</span><br><span class="line">   <span class="string">'TIMES'</span>,</span><br><span class="line">   <span class="string">'DIVIDE'</span>,</span><br><span class="line">   <span class="string">'LPAREN'</span>,</span><br><span class="line">   <span class="string">'RPAREN'</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Regular expression rules for simple tokens</span></span><br><span class="line">t_PLUS    = <span class="string">r'\+'</span></span><br><span class="line">t_MINUS   = <span class="string">r'-'</span></span><br><span class="line">t_TIMES   = <span class="string">r'\*'</span></span><br><span class="line">t_DIVIDE  = <span class="string">r'/'</span></span><br><span class="line">t_LPAREN  = <span class="string">r'\('</span></span><br><span class="line">t_RPAREN  = <span class="string">r'\)'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A regular expression rule with some action code</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\d+'</span></span><br><span class="line">    t.value = int(t.value)</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define a rule so we can track line numbers</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_newline</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\n+'</span></span><br><span class="line">    t.lexer.lineno += len(t.value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A string containing ignored characters (spaces and tabs)</span></span><br><span class="line">t_ignore  = <span class="string">' \t'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Error handling rule</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_error</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Illegal character '%s'"</span> % t.value[<span class="number">0</span>]</span><br><span class="line">    t.lexer.skip(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;现在，如果你想要从不同的模块中构建分析器，应该这样（在交互模式下）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> tokrules</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer = lex.lex(module=tokrules)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer.input(<span class="string">"3 + 4"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer.token()</span><br><span class="line">LexToken(NUMBER,<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer.token()</span><br><span class="line">LexToken(PLUS,<span class="string">'+'</span>,<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer.token()</span><br><span class="line">LexToken(NUMBER,<span class="number">4</span>,<span class="number">1</span>,<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lexer.token()</span><br><span class="line"><span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;<code>module</code>选项也可以指定类型的实例，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> ply.lex <span class="keyword">as</span> lex</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyLexer</span>:</span></span><br><span class="line">    <span class="comment"># List of token names.   This is always required</span></span><br><span class="line">    tokens = (</span><br><span class="line">       <span class="string">'NUMBER'</span>,</span><br><span class="line">       <span class="string">'PLUS'</span>,</span><br><span class="line">       <span class="string">'MINUS'</span>,</span><br><span class="line">       <span class="string">'TIMES'</span>,</span><br><span class="line">       <span class="string">'DIVIDE'</span>,</span><br><span class="line">       <span class="string">'LPAREN'</span>,</span><br><span class="line">       <span class="string">'RPAREN'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Regular expression rules for simple tokens</span></span><br><span class="line">    t_PLUS    = <span class="string">r'\+'</span></span><br><span class="line">    t_MINUS   = <span class="string">r'-'</span></span><br><span class="line">    t_TIMES   = <span class="string">r'\*'</span></span><br><span class="line">    t_DIVIDE  = <span class="string">r'/'</span></span><br><span class="line">    t_LPAREN  = <span class="string">r'\('</span></span><br><span class="line">    t_RPAREN  = <span class="string">r'\)'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># A regular expression rule with some action code</span></span><br><span class="line">    <span class="comment"># Note addition of self parameter since we're in a class</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(self,t)</span>:</span></span><br><span class="line">        <span class="string">r'\d+'</span></span><br><span class="line">        t.value = int(t.value)</span><br><span class="line">        <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Define a rule so we can track line numbers</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">t_newline</span><span class="params">(self,t)</span>:</span></span><br><span class="line">        <span class="string">r'\n+'</span></span><br><span class="line">        t.lexer.lineno += len(t.value)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># A string containing ignored characters (spaces and tabs)</span></span><br><span class="line">    t_ignore  = <span class="string">' \t'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Error handling rule</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">t_error</span><span class="params">(self,t)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Illegal character '%s'"</span> % t.value[<span class="number">0</span>]</span><br><span class="line">        t.lexer.skip(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Build the lexer</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(self,**kwargs)</span>:</span></span><br><span class="line">        self.lexer = lex.lex(module=self, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Test it output</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self,data)</span>:</span></span><br><span class="line">        self.lexer.input(data)</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">             tok = lexer.token()</span><br><span class="line">             <span class="keyword">if</span> <span class="keyword">not</span> tok: <span class="keyword">break</span></span><br><span class="line">             <span class="keyword">print</span> tok</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build the lexer and try it out</span></span><br><span class="line">m = MyLexer()</span><br><span class="line">m.build()           <span class="comment"># Build the lexer</span></span><br><span class="line">m.test(<span class="string">"3 + 4"</span>)     <span class="comment"># Test it</span></span><br></pre></td></tr></table></figure>
+<h4 id="额外状态维护"><a href="#额外状态维护" class="headerlink" title="额外状态维护"></a>额外状态维护</h4><p>&ensp;&ensp;&ensp;在你的词法分析器中，你可能想要维护一些状态。这可能包括模式设置，符号表和其他细节。例如，假设你想要跟踪NUMBER标记的出现个数。</p>
+<p>&ensp;&ensp;&ensp;一种方法是维护一个全局变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">num_count = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\d+'</span></span><br><span class="line">    <span class="keyword">global</span> num_count</span><br><span class="line">    num_count += <span class="number">1</span></span><br><span class="line">    t.value = int(t.value)</span><br><span class="line">    <span class="keyword">return</span> t</span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;除此之外，还可以还可以记录信息到lexer对象内部。可以通过当前标记的lexer属性访问：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(t)</span>:</span></span><br><span class="line">    <span class="string">r'\d+'</span></span><br><span class="line">    t.lexer.num_count += <span class="number">1</span>     <span class="comment"># Note use of lexer attribute</span></span><br><span class="line">    t.value = int(t.value)    </span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line">lexer = lex.lex()</span><br><span class="line">lexer.num_count = <span class="number">0</span>            <span class="comment"># Set the initial count</span></span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;还可以自定义你的lexer类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyLexer</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">t_NUMBER</span><span class="params">(self,t)</span>:</span></span><br><span class="line">        <span class="string">r'\d+'</span></span><br><span class="line">        self.num_count += <span class="number">1</span></span><br><span class="line">        t.value = int(t.value)</span><br><span class="line">        <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        self.lexer = lex.lex(object=self,**kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.num_count = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://www.dabeaz.com/ply/ply.html" target="_blank" rel="noopener">PLY (Python Lex-Yacc)</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+  <div>
+    
+      
+
+    
+  </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持是我前进的动力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="Artemis 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Artemis 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Artemis
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://augustineccl.com/2017/07/25/2017-07-25-lex/" title="Lex模块的简单使用">http://augustineccl.com/2017/07/25/2017-07-25-lex/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则表达式/" rel="tag"><i class="fa fa-tag"></i> 正则表达式</a>
+          
+            <a href="/tags/lex/" rel="tag"><i class="fa fa-tag"></i> lex</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/21/2017-07-21-nlptools/" rel="next" title="NLP工具基本使用:StanfordNLP和SnowNLP">
+                <i class="fa fa-chevron-left"></i> NLP工具基本使用:StanfordNLP和SnowNLP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/25/2017-07-15-neo4jstart/" rel="prev" title="neo4j的安装与简单使用">
+                neo4j的安装与简单使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Artemis" />
+            
+              <p class="site-author-name" itemprop="name">Artemis</p>
+              <p class="site-description motion-element" itemprop="description">如果生命是一条孤独的河流，那么谁是我灵魂的摆渡人。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/moonccl" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="15764236514@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/fba10927bf5e" target="_blank" title="简书">
+                    
+                      <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/u010843612" target="_blank" title="csdn">
+                    
+                      <i class="fa fa-fw fa-stack-exchange"></i>csdn</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.52nlp.cn/" title="我爱自然语言处理" target="_blank">我爱自然语言处理</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.52ml.net/" title="我爱机器学习" target="_blank">我爱机器学习</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.jiqizhixin.com/" title="机器之心" target="_blank">机器之心</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用法"><span class="nav-number">1.3.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标记列表"><span class="nav-number">1.3.1.</span> <span class="nav-text">标记列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记的规则"><span class="nav-number">1.3.2.</span> <span class="nav-text">标记的规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记的值"><span class="nav-number">1.3.3.</span> <span class="nav-text">标记的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#丢弃标记"><span class="nav-number">1.3.4.</span> <span class="nav-text">丢弃标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#行号和位置信息"><span class="nav-number">1.3.5.</span> <span class="nav-text">行号和位置信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略字符"><span class="nav-number">1.3.6.</span> <span class="nav-text">忽略字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字面字符"><span class="nav-number">1.3.7.</span> <span class="nav-text">字面字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误处理"><span class="nav-number">1.3.8.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构建使用lexer"><span class="nav-number">1.3.9.</span> <span class="nav-text">构建使用lexer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TOKEN装饰"><span class="nav-number">1.3.10.</span> <span class="nav-text">@TOKEN装饰</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调试"><span class="nav-number">1.3.11.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他方式定义词法规则"><span class="nav-number">1.3.12.</span> <span class="nav-text">其他方式定义词法规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#额外状态维护"><span class="nav-number">1.3.13.</span> <span class="nav-text">额外状态维护</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">2.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Artemis</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <!--<i class="fa fa-area-chart"></i>-->
+      <i class="fa fa-pencil"></i>
+    </span>
+    
+      <span class="post-meta-item-text">博客全站字数&#58;</span>
+    
+    <span title="博客全站字数">63.6k</span>
+  
+</div>
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytpyjTGe';
+      var conf = 'd5f9c245b7de682a44a3b55b07abb4de';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FaMv5FCCofLPtvUztWo0uqb6-gzGzoHsz", "2QIPFp7TgmK7nTuRgQNI6gWi");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="/live2d/script.js"></script>
+    <canvas id="live2dcanvas" width="150" height="300" class="live2d"></canvas>
+    <style>
+      #live2dcanvas {
+        position: fixed;
+        right: 0px;
+        z-index: 999;
+        pointer-events: none;
+        bottom: -30px;
+      }
+    </style>
+    <script>loadlive2d("live2dcanvas" ,"/live2d/assets/nito/nito.model.json",0.5)</script>
+  
+</body>
+</html>

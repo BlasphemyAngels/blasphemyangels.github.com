@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>承影</title>
+  <subtitle>天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://augustineccl.com/"/>
+  <updated>2018-01-31T06:56:02.336Z</updated>
+  <id>http://augustineccl.com/</id>
+  
+  <author>
+    <name>Artemis</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TaoTao要吃鸡（01背包问题）</title>
+    <link href="http://augustineccl.com/2018/01/31/2018-1-30-chiji/"/>
+    <id>http://augustineccl.com/2018/01/31/2018-1-30-chiji/</id>
+    <published>2018-01-31T06:19:09.000Z</published>
+    <updated>2018-01-31T06:56:02.336Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>多校联赛的一个题目，题目其实是基础动态规划01-背包问题的改编版。</blockquote>
+
+<p><a href="https://www.nowcoder.com/acm/contest/74/B" target="_blank" rel="noopener">题目链接</a></p>
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>Taotao的电脑带不动绝地求生，所以taotao只能去玩pc版的荒野行动了，和绝地求生一样，游戏人物本身可以携带一定重量m的物品，装备背包之后可以多携带h（h为0代表没有装备背包）重量的东西。玩了几天taotao发现了一个BUG，当装备背包之后，如果可携带重量没有满，就 可以拿一个任意重的东西。（解释看样例）有一天taotao空降到了一个奇怪的岛上，岛上有n件装备，每个装备都有重量Wi和威力值Vi,但taotao不认识这些装备，所以他来求助你，挑选威力最大的装备，帮助他吃鸡。</p>
+<p>例如有三个装备：<code>(2, 3), (3, 2), (2, 3)</code>，现在<code>m=3</code>，<code>h=3</code>，当拿了前两个物品后，占用容量<code>5</code>，不满总容量<code>6</code>，还可以再拿第三个，得到总威力为：<code>8</code>。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>如果<code>h=0</code>那么没有那个<code>BUG</code>的存在，就是一个简单的<code>01</code>背包;<code>h!=0</code>那么枚举最后拿的物品，再对除了这个物品的其余物品做<code>01</code>背包即可。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> maxn 100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> v[maxn + <span class="number">10</span>], w[maxn + <span class="number">10</span>];</span><br><span class="line"><span class="keyword">int</span> f[maxn * <span class="number">2</span> + <span class="number">10</span>];</span><br><span class="line"><span class="keyword">int</span> n, m, h;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dp</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">  <span class="built_in">memset</span>(f, <span class="number">0</span>, <span class="keyword">sizeof</span>(f));</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(i == x)</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = h + m; j &gt;= v[i]; j--)</span><br><span class="line">    &#123;</span><br><span class="line">      f[j] = max(f[j], f[j - v[i]] + w[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(x == <span class="number">-1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">return</span> f[m + h];</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> f[m + h - <span class="number">1</span>] + w[x];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n), n)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;m, &amp;h);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;v[i], &amp;w[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!h)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, dp(<span class="number">-1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">      &#123;</span><br><span class="line">        ans = max(ans, dp(i));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ans);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;多校联赛的一个题目，题目其实是基础动态规划01-背包问题的改编版。&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.nowcoder.com/acm/contest/74/B&quot; target=&quot;_blank&quot; rel=&quot;noop
+    
+    </summary>
+    
+      <category term="算法" scheme="http://augustineccl.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="http://augustineccl.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="动态规划" scheme="http://augustineccl.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+      <category term="背包" scheme="http://augustineccl.com/tags/%E8%83%8C%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>双拆分数</title>
+    <link href="http://augustineccl.com/2018/01/09/2018-1-9-algorithmshuangchai/"/>
+    <id>http://augustineccl.com/2018/01/09/2018-1-9-algorithmshuangchai/</id>
+    <published>2018-01-09T14:50:42.000Z</published>
+    <updated>2018-01-25T02:22:05.466Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>对于一个数字串 s，若能找到一种将其分成左右两个非空部分 s1,s2 的方案，使得：</p>
+<ul>
+<li>s1,s2 均无前导零</li>
+<li>存在两个正整数 a,b，使得 b 整除 a，且 a/b=s1, a*b=s2</li>
+</ul>
+<p>那么我们记这是一个合法的分法。特别地，如果一个串有两个或更多个不同的合法的分法，那么我们称这个数字串是双拆分数字串。</p>
+<p>给定一个 n，要求构造一个长度恰为 n 的双拆分数字串。如果无解，输出 -1。</p>
+<a id="more"></a>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>首先根据上面的条件可以得出，一种合法的分法也就等价于<code>s2/s1=k*k</code>，也就<code>s2/s1</code>的结果是完全平方数。</p>
+<p>然后就是找到一个长度为<code>n</code>的数，它有两种合法的分法。</p>
+<p>当<code>n&lt;=3</code>时，显然无解，因为只有两个分割点，而且第二个分割点的分割使得<code>s2&lt;s1</code>。</p>
+<p>我们又会想到，如果一个数<code>n</code>是双拆分数，那么在<code>n</code>后面加两个<code>0</code>得到的数肯定也是双拆分数。那么问题就简单了，因为<code>n&lt;=3</code>的双拆分数不存在，我们只需找到一个长为<code>4</code>和一个长为<code>5</code>的双拆分数即可，而其他任意长度的双拆分数我们都可以使用这两个双拆分数在后面添<code>0</code>得到。</p>
+<p>可以写一个暴力程序得到一个长度为<code>4</code>的双拆分数为<code>1144</code>，长度为<code>5</code>的双拆分数为<code>16400</code>。当然对数学敏感的人应该很快就能构造出这两个数。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;题目描述&quot;&gt;&lt;a href=&quot;#题目描述&quot; class=&quot;headerlink&quot; title=&quot;题目描述&quot;&gt;&lt;/a&gt;题目描述&lt;/h4&gt;&lt;p&gt;对于一个数字串 s，若能找到一种将其分成左右两个非空部分 s1,s2 的方案，使得：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;s1,s2 均无前导零&lt;/li&gt;
+&lt;li&gt;存在两个正整数 a,b，使得 b 整除 a，且 a/b=s1, a*b=s2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么我们记这是一个合法的分法。特别地，如果一个串有两个或更多个不同的合法的分法，那么我们称这个数字串是双拆分数字串。&lt;/p&gt;
+&lt;p&gt;给定一个 n，要求构造一个长度恰为 n 的双拆分数字串。如果无解，输出 -1。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="算法" scheme="http://augustineccl.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="面试" scheme="http://augustineccl.com/categories/%E7%AE%97%E6%B3%95/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="双拆分数" scheme="http://augustineccl.com/tags/%E5%8F%8C%E6%8B%86%E5%88%86%E6%95%B0/"/>
+    
+      <category term="algorithm" scheme="http://augustineccl.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop2.7.5集群搭建</title>
+    <link href="http://augustineccl.com/2018/01/09/2018-1-8-hadoopcluster/"/>
+    <id>http://augustineccl.com/2018/01/09/2018-1-8-hadoopcluster/</id>
+    <published>2018-01-09T11:40:23.000Z</published>
+    <updated>2018-01-25T02:22:05.466Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="搭建hadoop2-7-5集群"><a href="#搭建hadoop2-7-5集群" class="headerlink" title="搭建hadoop2.7.5集群"></a>搭建hadoop2.7.5集群</h3><blockquote>组内最近要搭建一个<code>spark</code>平台，先让我们探探路，于是我就去阿里云和腾讯云各租了一台服务器用来搭建一个<code>hadoop</code>集群(-_-)。</blockquote>
+
+<a id="more"></a>
+<p>talk is check, action!</p>
+<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><h5 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h5><p>两台服务器的系统都是<code>cent os 7.3</code>，其他版本也是大同小异。</p>
+<h5 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h5><p>在每台结点上创建一个名为<code>hadoop</code>的用户并修改密码：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd hadoop</span><br><span class="line">passwd hadoop</span><br></pre></td></tr></table></figure></p>
+<p>我们的<code>hadoop</code>程序都是部署在每台结点的<code>hadoop</code>用户上的，所以本文以后的操作如无特别说明，都是在<code>hadoop</code>用户上进行。</p>
+<h5 id="配置jdk"><a href="#配置jdk" class="headerlink" title="配置jdk"></a>配置jdk</h5><p>先安装<code>jdk</code>：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install java-1.8.0-openjdk.x86_64</span><br></pre></td></tr></table></figure></p>
+<p>再配置环境变量：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk</span><br></pre></td></tr></table></figure></p>
+<h5 id="配置hosts文件"><a href="#配置hosts文件" class="headerlink" title="配置hosts文件"></a>配置hosts文件</h5><p>我这两个服务器的外网<code>ip</code>和内网<code>ip</code>为：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">公网ip</th>
+<th style="text-align:center">内网ip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">服务器1</td>
+<td style="text-align:center">node1_ip_1</td>
+<td style="text-align:center">node1_ip_2</td>
+</tr>
+<tr>
+<td style="text-align:center">服务器2</td>
+<td style="text-align:center">node2_ip_1</td>
+<td style="text-align:center">node2_ip_2</td>
+</tr>
+</tbody>
+</table>
+<p>在<code>node1</code>的<code>/etc/hosts</code>文件后面添加下入面内容：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1_ip_2  node1    node1</span><br><span class="line">node2_ip_1  node2    node2</span><br></pre></td></tr></table></figure></p>
+<p>在<code>node2</code>的<code>/etc/hosts</code>文件后面加入下面内容：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1_ip_1  node1   node1</span><br><span class="line">node2_ip_2  node2   node2</span><br></pre></td></tr></table></figure></p>
+<p>可以发现在给<code>A</code>结点配置<code>hosts</code>文件时，除了<code>A</code>结点外，在<code>hosts</code>文件内配置的都是外网<code>ip</code>，而<code>A</code>结点本身的配置只能是内网<code>ip</code>，其他结点类似。注意这一点很重要，不然会导致无法启动<code>namenode</code>。（很重要，血的教训）</p>
+<h5 id="配置免密码登录"><a href="#配置免密码登录" class="headerlink" title="配置免密码登录"></a>配置免密码登录</h5><p>配置所有结点间的<code>ssh</code>免密码登录。原理就是如果要配置结点<code>A</code>免密码登录<code>B</code>，那么只需要将<code>A</code>结点下<code>.ssh</code>目录下的公钥（一般为<code>id_rsa.pub</code>文件的你内容）复制到结点<code>B</code>的<code>.ssh/authorized_keys</code>文件中即可。</p>
+<p>这个操作使用<code>scp-copy-id</code>命令完成即可。</p>
+<p>比如在这里的<code>node1</code>需要进行如下配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen <span class="comment"># 产生秘钥</span></span><br><span class="line">ssh-copy-id localhost</span><br><span class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub hadoop@node2</span><br></pre></td></tr></table></figure>
+<p>结点<code>node2</code>是一样的。</p>
+<h5 id="打开阿里云服务器的端口"><a href="#打开阿里云服务器的端口" class="headerlink" title="打开阿里云服务器的端口"></a>打开阿里云服务器的端口</h5><p>如果是使用的阿里云或者腾讯云，这些服务器的端口默认是关闭的（包括22号端口），要打开的话要登录相应的官网，找到安全组规则，点击快速添加规则，填写下图的内容便打开了所有的端口。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/guize.png?raw=true" alt="guize"></p>
+<h4 id="hadoop配置"><a href="#hadoop配置" class="headerlink" title="hadoop配置"></a>hadoop配置</h4><h5 id="下载hadoop"><a href="#下载hadoop" class="headerlink" title="下载hadoop"></a>下载hadoop</h5><p>在所有结点运行：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz -P /tmp</span><br><span class="line">tar -xf /tmp/hadoop-2.8.1.tar.gz -C /usr/<span class="built_in">local</span>/hadoop --strip-components 1</span><br></pre></td></tr></table></figure></p>
+<h5 id="配置hadoop运行环境"><a href="#配置hadoop运行环境" class="headerlink" title="配置hadoop运行环境"></a>配置hadoop运行环境</h5><p>在所有结点的<code>~/.bash_profile</code>中加入下面内容：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/hadoop</span><br><span class="line"><span class="built_in">export</span> HADOOP_COMMON_HOME=<span class="variable">$HADOOP_HOME</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_HDFS_HOME=<span class="variable">$HADOOP_HOME</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_MAPRED_HOME=<span class="variable">$HADOOP_HOME</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_YARN_HOME=<span class="variable">$HADOOP_HOME</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_OPTS=<span class="string">"-Djava.library.path=<span class="variable">$HADOOP_HOME</span>/lib/native"</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_COMMON_LIB_NATIVE_DIR=<span class="variable">$HADOOP_HOME</span>/lib/native</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HADOOP_HOME</span>/sbin:<span class="variable">$HADOOP_HOME</span>/bin</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>source ~/.bash_profile</code>即可。</p>
+<h5 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h5><p>对所有结点的<code>$HADOOP_HOME/etc/hadoop/</code>中的配置文件做如下配置：</p>
+<p>在<code>hadoop-env.sh</code>中加入：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk</span><br></pre></td></tr></table></figure></p>
+<p>向<code>core-site.xml</code>添加如下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span>       <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://node2:9000/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span>     <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/hadoop/hdpdata<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<code>hdfs-site.xml</code>中加入如下内容：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:///home/hadoop/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>mapred-site.xml</code>中加入如下内容：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>yarn-site.xml</code>中加入如下内容：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>slaves</code>文件内加入如下内容：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1</span><br><span class="line">node2</span><br></pre></td></tr></table></figure></p>
+<p><code>slaves</code>内的内容代表<code>datanode</code>结点。</p>
+<p>注意上面的配置在一台结点配置好了之后一定要将它们发送到所有结点，使得所有结点的<code>hadoop</code>配置相同。</p>
+<h5 id="格式化namenode"><a href="#格式化namenode" class="headerlink" title="格式化namenode"></a>格式化namenode</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs namenode -format</span><br></pre></td></tr></table></figure>
+<h5 id="启动hadoop"><a href="#启动hadoop" class="headerlink" title="启动hadoop"></a>启动hadoop</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start-dfs.sh</span><br><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
+<p>输入<code>jps</code>，查看显示结果是否各个组件都成功启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">9461 ResourceManager</span><br><span class="line">8999 NameNode</span><br><span class="line">9131 DataNode</span><br><span class="line">9293 SecondaryNameNode</span><br><span class="line">15038 Jps</span><br><span class="line">9582 NodeManager</span><br></pre></td></tr></table></figure></p>
+<p>如果某个组件没有成功启动，可以查看<code>$HADOOP_HOME/logs/</code>下相应的日志文件。</p>
+<h5 id="测试hadoop"><a href="#测试hadoop" class="headerlink" title="测试hadoop"></a>测试hadoop</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -mkdir /input</span><br><span class="line">hdfs dfs -copyFromLocal /home/hadoop/words.txt /input/</span><br><span class="line">hdfs dfs -ls /input</span><br><span class="line">hdfs dfs -cat /input/words.txt</span><br></pre></td></tr></table></figure>
+<p>好了可以愉快的玩耍了。。。</p>
+<h4 id="补充网络知识："><a href="#补充网络知识：" class="headerlink" title="补充网络知识："></a>补充网络知识：</h4><h5 id="服务器公网ip"><a href="#服务器公网ip" class="headerlink" title="服务器公网ip"></a>服务器公网ip</h5><p>可以用于域名解析ip，服务器远程登录ip，是最主要的服务器ip地址。 </p>
+<h5 id="内网ip"><a href="#内网ip" class="headerlink" title="内网ip"></a>内网ip</h5><p>不能用于域名解析。 </p>
+<p>不可以直接用于服务器远程登录，其主要作用是：跟当前帐号下的其他同集群的机器通信。 
+　</p>
+<p>一些小型企业或者学校，通常都是申请一个固定的IP地址，然后通过IP共享（IP Sharing），使用整个公司或学校的机器都能够访问互联网。而这些企业或学校的机器使用的IP地址就是内网IP，内网IP是在规划IPv4协议时，考虑到IP地址资源可能不足，就专门为内部网设计私有IP地址（或称之为保留地址），一般常用内网IP地址都是这种形式的：10.X.X.X、172.16.X.X-172.31.X.X、192.168.X.X等。需要注意的是，内网的计算机可向Internet上的其他计算机发送连接请求，但Internet上其他的计算机无法向内网的计算机发送连接请求。 
+　　</p>
+<p>公网IP就是除了保留IP地址以外的IP地址，可以与Internet上的其他计算机随意互相访问。我们通常所说的IP地址，其实就是指的公网 IP。互联网上的每台计算机都有一个独立的IP地址，该IP地址唯一确定互联网上的一台计算机。这里的IP地址就是指的公网IP地址。</p>
+<p>其实，互联网上的计算机是通过“公网IP＋内网IP”来唯一确定的，就像很多大楼都是201房间一样，房间号可能一样，但是大楼肯定是唯一的。公网IP地址和内网IP地址也是同样，不同企业或学校的机器可能有相同的内网IP地址，但是他们的公网IP地址肯定不同。那么这些企业或学校的计算机是怎样IP地址共享的呢？这就需要使用NAT（Network Address Translation,网络地址转换）功能。当内部计算机要连接互联网时，首先需要通过NAT技术，将内部计算机数据包中有关IP地址的设置都设成NAT主机的公共IP地址，然后再传送到Internet，虽然内部计算机使用的是私有IP地址，但在连接Internet时，就可以通过NAT主机的NAT技术，将内网我IP地址修改为公网IP地址，如此一来，内网计算机就可以向Internet请求数据了。<br><br>                            ——百度百科 </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;搭建hadoop2-7-5集群&quot;&gt;&lt;a href=&quot;#搭建hadoop2-7-5集群&quot; class=&quot;headerlink&quot; title=&quot;搭建hadoop2.7.5集群&quot;&gt;&lt;/a&gt;搭建hadoop2.7.5集群&lt;/h3&gt;&lt;blockquote&gt;组内最近要搭建一个&lt;code&gt;spark&lt;/code&gt;平台，先让我们探探路，于是我就去阿里云和腾讯云各租了一台服务器用来搭建一个&lt;code&gt;hadoop&lt;/code&gt;集群(-_-)。&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="hadoop" scheme="http://augustineccl.com/categories/hadoop/"/>
+    
+    
+      <category term="hadoop" scheme="http://augustineccl.com/tags/hadoop/"/>
+    
+      <category term="搭建" scheme="http://augustineccl.com/tags/%E6%90%AD%E5%BB%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Skeleton Key-Image Captioning by Skeleton-Attribute Decomposition</title>
+    <link href="http://augustineccl.com/2018/01/05/2017-12-30-cvpr2017sekl-lstm/"/>
+    <id>http://augustineccl.com/2018/01/05/2017-12-30-cvpr2017sekl-lstm/</id>
+    <published>2018-01-05T07:26:21.000Z</published>
+    <updated>2018-01-25T02:22:05.465Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><br>最近在读<code>CVPR2017</code>的关于图像描述的文章，读到本文感到文章结构简单但是设置巧妙，所以特地markdown一下<br></blockquote>
+
+<p><a href="https://arxiv.org/abs/1704.06972" target="_blank" rel="noopener">论文地址</a></p>
+<a id="more"></a>
+<h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>最近，图像描述任务得到广泛关注。大多数已经存在的基于语言模型的方法是依据原先描述的词的顺序一个词一个词的生成。然而对于人，更自然的方法是，先定位好物体以及它们之间的关系，然后仔细描述每个物体以及它们的属性。文章提出一种“从粗糙到细致”的图像描述方法，通过将原始图像分解为一个主干句子和一些属性，这两者的生成是分开的。通过这种分解，文章的方法可以使得描述更加准确，生成更加合理的描述。而且还能生成长度不一更自然的描述。</p>
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>近几年，自动生成图像的描述问题在计算机视觉领域受到了广泛的关注。但是这个问题是很有挑战性的，原因是描述的生成过程不仅需要学习到高层的图像语义而不仅仅是简单的物体和场景的识别，再就是需要产生一个语义和语法都正确的句子来描述重要的物体、物体间的属性以及它们之间的关系。</p>
+<p>图像描述模型的发展历程可以总结为下图:<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/image_caption_c.png?raw=true" alt="image_caption_c"></p>
+<p>从图中可以看出，图像描述模型分为三个流派：</p>
+<ul>
+<li>基于检索</li>
+<li>基于模板</li>
+<li>基于语言模型</li>
+</ul>
+<p>基于检索的方法是通过对输入的图像在一个庞大的图像-文本对数据集中进行检索，得到相应的描述。这种方法的结果好坏依赖数据集的好坏和完整度，数据集很差或不完整都会影响描述结果。</p>
+<p>基于模板的方法是根据预先设定好的模板进行生成描述，如预先设定好的模板可能是<code>主谓宾</code>，这样生成的描述依赖模板的好坏，而且模板是有限的，而句子是无限的，以有限描述无限会使生成的描述显得死板，不自然。</p>
+<p>基于语言模型的方式是通过神经网络计算给定图像下得到描述的似然概率生成描述，训练的过程就是最大化这个似然概率。但是基于语言的方法会有下面两方面的问题：</p>
+<ul>
+<li>泛化能力不够，生成的描述有可能只是对训练数据的”死记硬背”</li>
+<li>一个词一个词的生成描述，有可能使得生成的物体在其属性的后面生成。</li>
+</ul>
+<p>为了解决这些问题，文章提出了一种从粗糙到细致的描述生成方法，方法分两步：</p>
+<ul>
+<li>第一步先生成描述的基本主干，基本主干中包含了图像中主要物体。</li>
+<li>第二步对基本主干使用注意力生成相应的属性。</li>
+</ul>
+<p>这样将描述物体和描述属性两个过程分离开，使得描述生成的更准确。</p>
+<p>如下图：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/skeleton.png?raw=true" alt="skeleton"></p>
+<p>本文的工作的灵感来自于认知神经学研究。文章介绍在视觉感知的过程如物体识别的过程中，有一种从上到下进行识别的机制起了重大作用，这种机制的原理还没有被人们索理解，但是有科学家猜测其先是通过低频率的空间特征得到对一个物体的初始猜测。然后低频率空间特征被映射为低层次视觉特征，用于得到高层次的语义。这个思想借鉴到图像描述任务就是从粗糙到精细的生成描述思想，通过将问题分解为两步，先描述句子概况，然后通过句子概况描述相应细节，前一步有助于解决下一步。</p>
+<h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p>模型总体结构如下图，在训练阶段，将描述分解为主干句子和属性输入到模型中训练，测试阶段先基于图像生成主干，然后在主干句子上施加注意力产生相应的属性，然后将主干句子和属性合并成描述。使用两个lstm，一个是<code>skel-lstm</code>,用于对输入的图像产生骨架，另一个是<code>attr-lstm</code>用来得到主干句子中物体相应的属性。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/sekelon2.png?raw=true" alt="sekelon2"></p>
+<h5 id="描述的骨架－属性分解"><a href="#描述的骨架－属性分解" class="headerlink" title="描述的骨架－属性分解"></a>描述的骨架－属性分解</h5><p>文章使用斯坦福的<code>NLP</code>工具<code>constituency parser</code>对句子进行分析，得到一个依赖树，如上图中。树中的结点对应短语的不同类型，如<code>NP</code>(名词短语)，<code>VP</code>(动词短语)，<code>PP</code>(介词短语)和<code>AP</code>(形容词短语)等。</p>
+<p>那么怎么抽取句子中的物体呢？找到最低层的<code>NP</code>，将<code>NP</code>中的最后一个词视为物体，最后一个之前的词视为这个物体的属性。而其他属性的结点则保持不变的留在主干句子中。</p>
+<p>有时上面的方式提取物体看起来不太适合，如对于<code>coffee cup</code>是将<code>cup</code>看做物体，将<code>coffee</code>看做描述<code>cup</code>的属性还是将<code>coffee cup</code>看做一个物体好?本文不区分这些，都使用上面的方式。实验效果显示模型会学到到它们内在的关系。</p>
+<h5 id="coarse-of-fine-LSTM"><a href="#coarse-of-fine-LSTM" class="headerlink" title="coarse-of-fine LSTM"></a>coarse-of-fine LSTM</h5><p>模型编码阶段使用<code>CNN</code>对图像进行编码，解码阶段使用两个<code>LSTM</code>，一个<code>skel-lstm</code>生成句子主干，一个<code>attr-lstm</code>生成为骨架中物体生成相应的属性。</p>
+<h6 id="skel-lstm"><a href="#skel-lstm" class="headerlink" title="skel-lstm"></a>skel-lstm</h6><p><code>skel-lstm</code>使用的<code>soft attention lstm</code>，其结构如下图所示：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/lstm-att.png?raw=true" alt="soft-atten"></p>
+<p>可以看出，上图其实就是一个基本的<code>LSTM</code>结构，只是它的每个门的输入多了注意力向量\(z_t\)和前一个时刻<code>LSTM</code>的输出<code>$Ey_{t-1}$</code>。</p>
+<p>其中的<code>$z_t$</code>就是注意力映射向量，这个向量的计算方式如下：</p>
+<p>我们使用<code>$v_{ij}\in R^D$</code>表示在位置<code>$(i,j)\in L\times L$</code>处的图像特征。第<code>t</code>步的注意力映射表示为归一化的权值<code>$\alpha_{ij,t}$</code>，它是通过下面的式子得到:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\alpha&#123;ij,t&#125;=Softmax(MLP(v_&#123;i,j&#125;, h_&#123;t-1&#125;))</span><br></pre></td></tr></table></figure></p>
+<p>然后就能得到<code>$z_t$</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z_t=\sum_&#123;i,j&#125;\alpha_&#123;ij,t&#125;v_&#123;ij&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们计算得到的注意力映射向量<code>$z_t$</code>不仅用于此处生成句子主干，而且还重用于生成后面的物体属性。</p>
+<h5 id="Attr-Lstm"><a href="#Attr-Lstm" class="headerlink" title="Attr-Lstm"></a>Attr-Lstm</h5><p>在句子主干生成后，我们需要为句子主干中的物体生成相应的属性，文章使用<code>Attr-lstm</code>直接生成一系列的属性，而不是分别为一个物体生成多个属性。</p>
+<p><code>Attr-lstm</code>的结构与传统用于图像描述的<code>lstm</code>结构类似，如下图：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM-caption.png?raw=true" alt="lstm-caption"></p>
+<p>上图中的LSTM的输入序列是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x_&#123;-1&#125;=CNN(I) </span><br><span class="line"></span><br><span class="line">x_t=W_ey_t,t=0,1,...,N-1</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>I</code>代表图像，<code>CNN(I)</code>代表图像的特征，<code>$W_e$</code>是词嵌入矩阵，<code>$y_t$</code>是词的<code>one-hot</code>向量，所以<code>$W_ey_t$</code>是单词的嵌入向量。</p>
+<p>作者认为属性的生成与原图像、主干单词、主干句子的上下文这三种类型的信息相关。而主干句子的上下文信息就存储在<code>skel-lstm</code>中，那么在<code>attr-lstm</code>的第<code>t</code>不使用哪个<code>skel-lstm</code>哪一步的状态信息比较好呢？作者通过实验使用<code>skel-lstm</code>的前一个状态、当前状态，下一个状态的信息，结果发现当前步状态信息效果最好。而图像特征也不再使用原始图像特征，而是经过<code>skel-lstm</code>计算后的注意力映射特征<code>$z_t$</code>。</p>
+<p>综上，在<code>Attr-lstm</code>中<code>lstm</code>的输入是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x_&#123;-1&#125;=MLP(W_1z_T, W_tS_T^&#123;skel&#125;+W_hh_T^&#123;sekl&#125;)</span><br><span class="line"></span><br><span class="line">x_t=W_ey_t,t=0,1,...,N-1</span><br></pre></td></tr></table></figure></p>
+<p>其中，<code>$z_t$</code>就是上面提到的经过注意力映射的图特征，<code>$S_T^{skel}$</code>是第<code>T</code>个主干句子中的词向量，<code>$h_T^{sekl}$</code>是第<code>T</code>步<code>skel-lstm</code>的隐状态。</p>
+<h5 id="精调-z-t"><a href="#精调-z-t" class="headerlink" title="精调$z_t$"></a>精调<code>$z_t$</code></h5><p>考虑到注意力在序列到序列模型中的重要性，作者提出了一种对上面的注意力映射向量<code>$\alpha_{ij}$</code>的改进方式：</p>
+<p>上面提到的<code>$\alpha$</code>其实是通过前一步的状态得到，所以它是前一单词的注意力，而作者认为，当前词的确定不只依赖前一个词，也依赖后一个词，所以定义了<code>$\alpha_{post}$</code>代表后一个词的注意力。</p>
+<p>设<code>$P_{attend}=p_1,P-2,...,p_Q$</code>为<code>LSTM</code>的输出，其中<code>Q</code>代表<code>sekl-lstm</code>的输入词典大小。那么将图像<code>I</code>每个位置特征<code>$v_{i,j}$</code>输入到<code>LSTM</code>中就能得到一个概率向量<code>$P_{ij}$</code>。于是作者就使用这个概率对<code>$\alpha_{ij}$</code>进行改进。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\alpha_&#123;post(ij)&#125;=\frac&#123;1&#125;&#123;Z&#125;P^T_&#123;attend&#125;\times P_&#123;ij&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>Z</code>是正则化项。</p>
+<p>精调其实就是使用<code>$P_{attend}</code>和<code>$P_{ij}$</code>的相似度作为下一个词的注意力映射向量。</p>
+<p>如下图：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/attention-refine.png?raw=true" alt="attention-refine"></p>
+<h5 id="长度因子"><a href="#长度因子" class="headerlink" title="长度因子"></a>长度因子</h5><p>太短的描述很可能会丢失物体的属性，所以作者在生成描述的时候加入一个长度因子来鼓励长描述的生成。不同长度的描述蕴含了不同丰富度的信息，这允许我们根据用户的偏好来调节产生匹配用户的偏好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log(\hat&#123;P&#125;)=log(P)+\gamma\times l</span><br></pre></td></tr></table></figure>
+<p>其中<code>P</code>是生成的描述的概率。</p>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><h5 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h5><p>实验使用的数据集有两个：</p>
+<ul>
+<li>MS-COCO</li>
+<li>Stock3M</li>
+</ul>
+<h5 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h5><p>对于<code>MSCOCO</code>数据集，移除其中的标点，将描述全部转换为小写。去除在主干句子中出现次数低于5次的单词和在属性句子中出现3次的单词。</p>
+<h5 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h5><p>在<code>SPICE</code>上的对比图：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/skel-expr1.png?raw=true" alt="sekl-expr1"></p>
+<p>在其他评价标准上的对比图：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/skel-expr1.png?raw=true" alt="skel-expr2"></p>
+<hr>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;br&gt;最近在读&lt;code&gt;CVPR2017&lt;/code&gt;的关于图像描述的文章，读到本文感到文章结构简单但是设置巧妙，所以特地markdown一下&lt;br&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1704.06972&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论文地址&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="papper" scheme="http://augustineccl.com/categories/papper/"/>
+    
+    
+      <category term="papper" scheme="http://augustineccl.com/tags/papper/"/>
+    
+      <category term="CVPR" scheme="http://augustineccl.com/tags/CVPR/"/>
+    
+      <category term="ImageCaption" scheme="http://augustineccl.com/tags/ImageCaption/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2017-11-10-linuxinstall</title>
+    <link href="http://augustineccl.com/2017/11/10/2017-11-10-linuxinstall/"/>
+    <id>http://augustineccl.com/2017/11/10/2017-11-10-linuxinstall/</id>
+    <published>2017-11-10T08:53:08.000Z</published>
+    <updated>2018-01-25T02:22:05.464Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="pip安装指定版本软件"><a href="#pip安装指定版本软件" class="headerlink" title="pip安装指定版本软件"></a>pip安装指定版本软件</h3><ul>
+<li>pip install -v tensorflow=1.0</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;pip安装指定版本软件&quot;&gt;&lt;a href=&quot;#pip安装指定版本软件&quot; class=&quot;headerlink&quot; title=&quot;pip安装指定版本软件&quot;&gt;&lt;/a&gt;pip安装指定版本软件&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;pip install -v tensorflow=1.
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2017-11-10-linuxgrep</title>
+    <link href="http://augustineccl.com/2017/11/10/2017-11-10-linuxgrep/"/>
+    <id>http://augustineccl.com/2017/11/10/2017-11-10-linuxgrep/</id>
+    <published>2017-11-10T07:50:56.000Z</published>
+    <updated>2018-01-25T02:22:05.461Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="文本处理三剑客"><a href="#文本处理三剑客" class="headerlink" title="文本处理三剑客"></a>文本处理三剑客</h3><ul>
+<li>grep文本过滤 egrep fgrep grep</li>
+<li>sed stream editor</li>
+<li>awk Linux上实现gawk,文本报告生成器</li>
+</ul>
+<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><ul>
+<li>文本搜索工具，根据用户指定的模式对目标文本逐行进行匹配检查，打印匹配到的行，</li>
+<li>模式：由正则表达式字符及文本字符所编写的过滤条件<br>n</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;文本处理三剑客&quot;&gt;&lt;a href=&quot;#文本处理三剑客&quot; class=&quot;headerlink&quot; title=&quot;文本处理三剑客&quot;&gt;&lt;/a&gt;文本处理三剑客&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;grep文本过滤 egrep fgrep grep&lt;/li&gt;
+&lt;li&gt;sed strea
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>linux经典案例</title>
+    <link href="http://augustineccl.com/2017/11/07/2017-11-07-linxuexample/"/>
+    <id>http://augustineccl.com/2017/11/07/2017-11-07-linxuexample/</id>
+    <published>2017-11-07T00:57:20.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>整理一下遇到的linux命令的题目，并对答案做个总结</blockquote>
+
+<a id="more"></a>
+<h3 id="统计单词数目并排序"><a href="#统计单词数目并排序" class="headerlink" title="统计单词数目并排序"></a>统计单词数目并排序</h3><p>&ensp;&ensp;&ensp;统计一个文件中每个单词各自出现的次数并排序</p>
+<ul>
+<li>sed -r ‘s# +#\n#g’ words.txt | sed  -r ‘/^$/d’ | sort | uniq -c | sort -r | awk ‘{print $2,$1}’</li>
+<li>cat words.txt | tr -s ‘ ‘ ‘\n’ | sort | uniq -c | sort -r | awk ‘{ print $2, $1 }’</li>
+<li>tr -s ‘ ‘ ‘\n’ &lt; words.txt|sort|uniq -c|sort -nr|awk ‘{print $2, $1}’</li>
+<li>cat words.txt | awk ‘{for(i=1;i&lt;=NF;++i){count[$i]++}} END{for(i in count) {print i,count[i]}}’ | sort -k2nr</li>
+<li>awk ‘{for(i=1;i&lt;=NF;i++) a[$i]++} END {for(k in a) print k,a[k]}’ words.txt | sort -k2 -nr</li>
+</ul>
+<h3 id="打印文件第十行"><a href="#打印文件第十行" class="headerlink" title="打印文件第十行"></a>打印文件第十行</h3><p>&ensp;&ensp;&ensp;打印一个文件的第十行内容</p>
+<p>&ensp;&ensp;&ensp;做法有很多：</p>
+<ul>
+<li>head -n 10 file.txt | tail -n +10</li>
+<li>sed -n ‘10p’ file.txt</li>
+<li>awk ‘NR == 10’ file.txt </li>
+<li>awk ‘{if(NR==10) print $0}’ file.txt</li>
+</ul>
+<h3 id="找出不合法电话号码"><a href="#找出不合法电话号码" class="headerlink" title="找出不合法电话号码"></a>找出不合法电话号码</h3><p>&ensp;&ensp;&ensp;给你一个文件，文件中每行是一个电话号码，有合法的有不合法的，找出合法的电话，合法的电话号码形式是：(xxx) xxx-xxxx或xxx-xxx-xxxx，每一行不含前导或后导空格。</p>
+<p>&ensp;&ensp;&ensp;如文件内容如下:</p>
+<p>987-123-4567<br>123 456 7890<br>(123) 456-7890</p>
+<p>&ensp;&ensp;&ensp;你需要输出：</p>
+<p>987-123-4567<br>(123) 456-7890</p>
+<ul>
+<li>grep -P ‘^(\d{3}-|(\d{3}) )\d{3}-\d{4}$’ file.txt</li>
+<li>sed -n -r ‘/^([0-9]{3}-|([0-9]{3}) )[0-9]{3}-[0-9]{4}$/p’ file.txt</li>
+<li>awk ‘/^([0-9]{3}-|([0-9]{3}) )[0-9]{3}-[0-9]{4}$/‘ file.txt</li>
+</ul>
+<h3 id="转置文件内容"><a href="#转置文件内容" class="headerlink" title="转置文件内容"></a>转置文件内容</h3><p>&ensp;&ensp;&ensp;如下所示，文件内容：<br>name age<br>alice 21<br>ryan 30<br>Output the following:<br>&ensp;&ensp;&ensp;需要得到：<br>name alice ryan<br>age 21 30</p>
+<ul>
+<li>awk ‘NF!=0 {for(c=1;c&lt;=NF;c++) mtx[NR,c]=$c; rows++; cols=NF;} END{for(c=1;c&lt;=cols;c++) { line=mtx[1,c]; for(r=2;r&lt;=rows;r++) { line=line” “mtx[r,c]}; print line; }}’ file.txt</li>
+</ul>
+<h3 id="分析日志找访问量最大文件"><a href="#分析日志找访问量最大文件" class="headerlink" title="分析日志找访问量最大文件"></a>分析日志找访问量最大文件</h3><p>分析图片服务日志，把日志（每个图片访问次数×图片大小的总和）排行，取top10，也就是计算每个url的总访问量大小。</p>
+<ul>
+<li>awk ‘{print $7”\t” $10}’ filename | sort |uniq -c|awk ‘{print $1*$3,$1,$2}’ | sort -rn | head </li>
+<li>awk ‘{S[$7]++;T[$7]+=$10}END{for(k in S) print k,S[k],T[k]r’ filename</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;整理一下遇到的linux命令的题目，并对答案做个总结&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://augustineccl.com/categories/Linux/"/>
+    
+    
+      <category term="linux" scheme="http://augustineccl.com/tags/linux/"/>
+    
+      <category term="example" scheme="http://augustineccl.com/tags/example/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux三剑客之awk</title>
+    <link href="http://augustineccl.com/2017/11/07/2017-11-07-awk/"/>
+    <id>http://augustineccl.com/2017/11/07/2017-11-07-awk/</id>
+    <published>2017-11-06T16:59:22.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><br>awk作为linux系统中文本处理三剑客中的老大，它几乎实现文本处理的一切问题。其实awk本身已经不再是一个命令那么简单，而是一门语言。本文将带你走进awk的世界。<br></blockquote>
+
+<a id="more"></a>
+<h4 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h4><p><code>awk</code>的主要功能是过滤内容（取列）。</p>
+<p>命令一般格式：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk [-F SEP] <span class="string">'BEGIN&#123;&#125;&#123;&#125;END&#123;&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<p><code>-F</code>选项指定文件中一行内容中列的分隔符，如文件中一行内容为<code>a-b-c</code>，然后指定<code>awk</code>选项<code>-F</code>为<code>-</code>，则<code>awk</code>处理时就会以<code>a</code>为第一列,<code>b</code>为第二列……，回想一下<code>linux</code>中的命令<code>cut</code>，它也是用来取文件中某一列内容的，他的<code>-d</code>参数指定列分隔符，然后用<code>-f</code>指定取那一列，如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat test</span><br><span class="line">a-b-c</span><br><span class="line">d-e-f</span><br><span class="line">g-h-k</span><br><span class="line">$ cut -d - -f 2</span><br><span class="line">b</span><br><span class="line">e</span><br><span class="line">h</span><br></pre></td></tr></table></figure></p>
+<p>大括号内书写<code>awk</code>的模式或命令语句。在大括号内可以写类似<code>C</code>语言的语句，如:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;print $n&#125;'</span> <span class="built_in">test</span></span><br></pre></td></tr></table></figure></p>
+<p>意思就是打印文件<code>test</code>中每一行的第<code>n</code>列。而列的定义是默认空格分割，可以使用<code>-F</code>选项指定，<code>$</code>后面可以跟<code>1,2,3,...,NF-1,NF</code>，其中<code>NF</code>表示最后一列的号码。</p>
+<p>除了<code>NF</code>，<code>awk</code>中还有哪些特殊符号呢？</p>
+<ul>
+<li><code>NR</code> 行号</li>
+<li><code>NF</code> 最后一列列号</li>
+<li><code>ARGC</code> 命令行参数个数</li>
+<li><code>ARGV</code> 命令行参数数组</li>
+<li><code>ENVIRON</code> 支持队列中系统环境变量的使用</li>
+<li><code>FILENAME</code> awk浏览的文件名</li>
+<li><code>FNR</code> 浏览文件的记录数</li>
+<li><code>FS</code> 设置输入列分隔符，等价于命令行 -F选项</li>
+<li><code>OFS</code> 输出列分隔符</li>
+<li><code>RS</code> 输入行分隔符</li>
+<li><code>ORS</code> 输出行分隔符</li>
+</ul>
+<h4 id="awk数组"><a href="#awk数组" class="headerlink" title="awk数组"></a>awk数组</h4><p><code>awk</code>的数组和<code>C</code>语言的数组其实没什么不同，只是在<code>awk</code>中的数组不需要<code>声明</code>。</p>
+<p>如现在有一个文件，里面的内容如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cat <span class="built_in">test</span></span><br><span class="line">a<span class="_">-d</span></span><br><span class="line">b<span class="_">-e</span></span><br><span class="line">a<span class="_">-f</span></span><br><span class="line">c-g</span><br><span class="line">f-z</span><br></pre></td></tr></table></figure></p>
+<p>每一行的两个字母构成了一个字母对，现在需要根据第一个字母进行去重，对于第一个字母相同的字母对只保留最后出现的那一个字母对。应该怎么做？</p>
+<p>使用<code>awk</code>数组即可。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F <span class="string">'-'</span> <span class="string">'&#123;a[$1]=$2&#125;END&#123;for(k in a) print k,a[k]&#125;'</span> <span class="built_in">test</span></span><br><span class="line">a f</span><br><span class="line">b e</span><br><span class="line">c g</span><br><span class="line">f z</span><br></pre></td></tr></table></figure></p>
+<p>这里有一个问题，有些同学会将命令写为<code>awk -F &#39;-&#39; &#39;BEGIN{a[$1]=$2}END{for(k in a) print k,a[k]}&#39; test</code>，但是这样的话会发现将什么也不输出。这是为什么呢？</p>
+<p>这就跟<code>awk</code>提供的两个特殊的表达式<code>BEGIN</code>和<code>END</code>相关了。</p>
+<p><code>awk</code>提供<code>BEGIN</code>和<code>END</code>的作用是在程序开始之能够初始化一些状态，在程序结束之后能够做一些扫尾工作。</p>
+<p>在<code>BEGIN</code>之后的<code>{}</code>内的操作将在<code>awk</code>开始扫描输入之前执行，而<code>END</code>之后的<code>{}</code>内的操作将在扫描完全部的输入之后执行。因此，通常使用BEGIN来显示变量和预置（初始化）变量，使用END来输出最终结果。</p>
+<p>所以很明显，这位同学写的语句中为数组赋值的语句只在<code>awk</code>扫描文本之前执行一遍，而在扫描文本的过程中并没有向数组中填写内容，所以没有任何输出结果。</p>
+<p>那么<code>awk</code>支不支持二维数组呢？其实也支持，<code>awk</code>的数组可以理解为一个<code>字典</code>，它的索引只接受字符串，但是我们可以使用数字索引，<code>awk</code>内部会把数字内部索引转换为字符串。</p>
+<p>使用<code>a[1,2]</code>时代表使用了二维数组，但是<code>awk</code>内部会将其转换为<code>a[&quot;1\0342&quot;]</code>。其中<code>,</code>可以用<code>\034</code>代替，也可以使用<code>SUBSEP</code>代替，它的意思是<code>Subscript Sepqrator</code>数组下标分隔符。</p>
+<p>所以下面的几条命令是等价的:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN &#123;Arr[2,79]=78 print Arr["2\03479"]&#125;'</span></span><br><span class="line">awk <span class="string">'BEGIN &#123;Arr[2,79]=78 print Arr[2,79]&#125;'</span></span><br><span class="line">awk <span class="string">'BEGIN &#123;Arr[2,79]=78 print Arr["2\03479"]&#125;'</span></span><br><span class="line">awk <span class="string">'BEGIN &#123;Arr[2,79]=78 idx=2 SUPBSEP 79 print Arr[idx]&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="条件和循环"><a href="#条件和循环" class="headerlink" title="条件和循环"></a>条件和循环</h4><p><code>awk</code>中的<code>{}</code>可以书写流程控制语句，如条件语句:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (expression) &#123;</span><br><span class="line">    statement;</span><br><span class="line">    statement;</span><br><span class="line">    ... ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (expression) &#123;</span><br><span class="line">    statement;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    statement2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (expression) &#123;</span><br><span class="line">    statement1;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (expression1) &#123;</span><br><span class="line">    statement2;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    statement3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>条件语句中常使用的逻辑运算符也跟<code>C</code>语言一样，如<code>&amp;&amp;</code>表示且等。</p>
+<p>循环:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(expression)&#123;</span><br><span class="line">    statement</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(k <span class="keyword">in</span> arrary)&#123;</span><br><span class="line">    statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>awk</code>中的循环和<code>C</code>语言基本相同，都可以使用<code>break</code>、<code>continue</code>等有语句。</p>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p>下面来介绍一个小例子，说明<code>awk</code>的强大应用，取出下列文本中电话号码并进行去重。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat <span class="built_in">test</span></span><br><span class="line">a-111111-hgehe</span><br><span class="line">b-222222-popop</span><br><span class="line">c-111111-cdsfs</span><br><span class="line">d-123456-rtryr</span><br><span class="line">a-245124-bdfef</span><br><span class="line">c-123456-aaads</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>cut</code>命令:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cut -d - -f 2 <span class="built_in">test</span> | sort | uniq -c</span><br><span class="line">      1 </span><br><span class="line">      1 a hehe a</span><br><span class="line">      1 b hehe b</span><br><span class="line">      1 c hehe c</span><br><span class="line">      2 c hehe d</span><br><span class="line">      2 f hehe f</span><br></pre></td></tr></table></figure></p>
+<p>也可以使用<code>awk</code>：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;print $2&#125;'</span> <span class="built_in">test</span> | sort | uniq -c</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="http://blog.csdn.net/panpan639944806/article/details/19932543" target="_blank" rel="noopener">awk的BEGIN和END</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;br&gt;awk作为linux系统中文本处理三剑客中的老大，它几乎实现文本处理的一切问题。其实awk本身已经不再是一个命令那么简单，而是一门语言。本文将带你走进awk的世界。&lt;br&gt;&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://augustineccl.com/categories/Linux/"/>
+    
+    
+      <category term="linux" scheme="http://augustineccl.com/tags/linux/"/>
+    
+      <category term="awk" scheme="http://augustineccl.com/tags/awk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>学校生活中的一些资料</title>
+    <link href="http://augustineccl.com/2017/11/05/2017-11-05-sources/"/>
+    <id>http://augustineccl.com/2017/11/05/2017-11-05-sources/</id>
+    <published>2017-11-05T06:23:19.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <content type="html"><![CDATA[<p>&ensp;&ensp;&ensp;收集到的一些小资料，放在这主要是图个好管理，也就不公开了。<br><a id="more"></a></p>
+<h3 id="学术道德与学术规范"><a href="#学术道德与学术规范" class="headerlink" title="学术道德与学术规范"></a>学术道德与学术规范</h3><p><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/学术道德与学术规范.pptx?raw=true" target="_blank" rel="noopener">PPT</a></p>
+<ul>
+<li>分析学术道德失范问题产生的原因<br><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/zuoye1.doc?raw=true" target="_blank" rel="noopener">答案</a></li>
+<li>高校、导师、研究生在研究生学术道德建设方面扮演的角色和完成的工作<br><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/zuoye2.doc?raw=true" target="_blank" rel="noopener">答案</a></li>
+<li>自己将从哪些方面确保研究生学习阶段不发生学术道德失范现象<br><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/zuoye3.doc?raw=true" target="_blank" rel="noopener">答案</a></li>
+</ul>
+<h3 id="GAN"><a href="#GAN" class="headerlink" title="GAN"></a>GAN</h3><h4 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h4><ul>
+<li><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/GAN.pdf?raw=true" target="_blank" rel="noopener">july GAN入门</a></li>
+</ul>
+<h4 id="code"><a href="#code" class="headerlink" title="code"></a>code</h4><ul>
+<li><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/GAN+in+Keras.ipynb?raw=true" target="_blank" rel="noopener">用keras实现DCGAN</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;收集到的一些小资料，放在这主要是图个好管理，也就不公开了。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="资料" scheme="http://augustineccl.com/categories/%E8%B5%84%E6%96%99/"/>
+    
+    
+      <category term="资料" scheme="http://augustineccl.com/tags/%E8%B5%84%E6%96%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux三剑客之sed</title>
+    <link href="http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/"/>
+    <id>http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/</id>
+    <published>2017-11-03T14:02:18.000Z</published>
+    <updated>2018-01-25T02:22:05.465Z</updated>
+    
+    <content type="html"><![CDATA[<p>## </p>
+<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>&ensp;&ensp;&ensp;sed(stream editor)流编辑器</p>
+<ul>
+<li>sed -n 取消自动打印（sed会自动将全部未过滤内容输出）</li>
+<li>sed -i 将更改作用到源文件，不加<code>-i</code>则只会把<code>sed</code>的输出修改而不会改变源文件</li>
+</ul>
+<p>&ensp;&ensp;&ensp;sed替换用法：</p>
+<ul>
+<li><code>sed &#39;s#string1#string2#g&#39; filename</code><br>&ensp;&ensp;&ensp;其中<code>s</code>代表<code>sub</code>，意思是替换，<code>#</code>是分隔符，<code>string1</code>要替换的文本，<code>string1</code>要替换成的文件，<code>g</code>是<code>global</code>全局的意思，可以不带<code>g</code>，不带<code>g</code>的意思是值替换第一个（想想<code>vim</code>中的替换）。<br>&ensp;&ensp;&ensp;<code>#</code>可以换成别的字符，但是要换的话，3个<code>#</code>都得换，换成的字符不能是<code>s</code>、<code>g</code>（当<code>s</code>或<code>g</code>出现在命令体中时）或<code>string1</code>和<code>string2</code>中的任何字符，如果非得使用上述字符，则加反斜线<code>\\</code>。<br>sed 流编辑器 增删改查 过滤 取行<a id="more"></a>
+</li>
+</ul>
+<p>sed [options] [sed-command] [input]</p>
+<p><code>sed命令</code>前面可以加地址范围<code>n1[,n2]</code></p>
+<ul>
+<li><code>10[sed-command]</code></li>
+<li><code>10,20[sed-command]</code></li>
+<li><code>10,+20[sed-command]</code></li>
+<li><code>1～2[sed-command]</code></li>
+<li><code>10，$[sed-command]</code></li>
+</ul>
+<p>地址还支持正则匹配</p>
+<ul>
+<li><code>/libai/[sed-command]</code></li>
+<li><code>/libai/,/luna/[sed-command]</code></li>
+<li><code>/libai/,$[sed-command]</code><br>如果匹配有多个，回想<code>sed</code>的流程来分析</li>
+</ul>
+<p>地址还支持数字和正则匹配混合</p>
+<ul>
+<li><code>10,/libai/[sed-command]</code></li>
+<li><code>/libai/,10[sed-command]</code></li>
+<li><code>/libai/,+10[sed-command]</code></li>
+</ul>
+<h3 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h3><ul>
+<li><code>a</code> 追加 <code>sed &#39;2a hehehe&#39; filename</code></li>
+<li><code>i</code> 插入 <code>sed &#39;2i hehehe&#39; filename</code></li>
+<li><code>a</code>和<code>i</code>的区别可以想想<code>vim</code>的<code>a</code>和<code>i</code></li>
+<li><code>a</code>和<code>i</code>可以单行增加也可以多行增加</li>
+<li><code>sed 2a hehehe\nhohoho filename</code></li>
+<li>多行时可以在文本中显示加入<code>\n</code>也可以在写命令要加入文本时在终端显式敲回车</li>
+<li><code>d</code> 删除 <code>sed &#39;d&#39; filename</code>全部删除</li>
+<li><code>sed &#39;2d&#39; filename</code></li>
+<li><code>sed &#39;2,5d&#39; filename</code></li>
+<li><code>c</code> 行间替换,用法跟前面的<code>a</code>和<code>i</code>、<code>d</code>相似</li>
+<li><code>s</code> 替换指定字符串，<code>g</code>命令替换标志—全局替换标志</li>
+<li><code>sed &#39;s#str1#str2#g&#39; filename</code>将str1替换为str2</li>
+<li><code>-i</code>参数 不加此参数，那么sed所做的任何操作都是在模式空间中做的，也就是在文件在内存中的映像做的，原文件内容是不变的，加了这个参数，就将在模式空间做的更改更新到文件上。</li>
+<li>变量替换 <code>sed s#$x#$y#g zimux.txt</code> 将zimux.txt中变量x中的值替换为变量为y的值。这种情况下，sed-command不能使用单引号，可以使用双引号和什么都不加。非要用单引号，可以<code>sed &#39;s#&#39;$x&#39;#&#39;$y&#39;#&#39; filename</code>也可以使用<code>eval sed &#39;s#$x#y#g&#39; filename</code>。</li>
+<li>分组替换 跟正则表达式的分组替换和vim中的分组匹配替换是一样的。<code>echo &#39;abc123&#39; | sed &#39;s#[a-z]+([0-9]+)#\1#g&#39;</code></li>
+<li><code>-r</code>选项启动扩展正则表达式</li>
+<li>特殊符号&amp; 代表被匹配的内容,相当于<code>\0</code>第0组<br>企业案例：批量重命名文件<br><code>ls *.jpg | sed -r &#39;s#(.*)_finished.*#mv &amp; \1.jpg#g&#39;</code></li>
+<li><code>rename</code>命令</li>
+<li><code>p</code>打印输出的内容，常与<code>-n</code>选项配合使用，<code>-n</code>选项取消默认输出。其实默认情况下会对匹配到的内容输出了，<code>p</code>又输出了一次。所以加上<code>-n</code>取消默认输出。</li>
+<li>set 修改文件及另存文件及替换命令</li>
+<li>修改文件 <code>-i</code></li>
+<li>备份 <code>sed -i[SUFFIX] &#39;set-commant&#39; filename</code></li>
+<li>另存文件 <code>sed &#39;w outputfile&#39; filename</code> 将模式空间的内容另存到<code>outputfile</code>文件中</li>
+<li><code>sed &#39;[地址范围][模式范围] s#[替换的字符串]#[替换后的字符串]#[替换标志]&#39; [输入文件]</code></li>
+<li>替换标志  全局标志g  数字标志1，,2，,3，…  打印p 写w 忽略大小写i  执行命令标志e</li>
+<li>地址范围是指定哪一行放入模式空间操作。</li>
+<li>全局标志g 不带g代表已经被前面选中的东西中匹配的第1列 带g表示匹配的所有列</li>
+<li><code>Ms# # #Ng</code></li>
+<li>Ms 对第M行进行操作 不带g表示对匹配的第一列进行操作 带g 表示匹配的所有列</li>
+<li>Ng 从第N处/列开始匹配</li>
+<li>Ms Ng 从第M行的第N出匹配进行处理</li>
+<li>数字表示X 只对第X处/列替换</li>
+<li>打印<code>p</code></li>
+<li><code>sed &#39;s#ab#dd#;w outputfile&#39; filename</code> 写命令 <code>w</code></li>
+<li><code>sed &#39;s#ab#dd#w outputfile&#39; filename</code> 写标志 <code>w</code></li>
+<li>两种是不同的</li>
+<li>忽略大小写标志 <code>i</code></li>
+<li>执行标志e 将模式空间的任何内容当做shell bash 命令执行</li>
+<li>案例 系统开机启动优化</li>
+<li><code>sed -r &#39;s#(.*),(.*),(.*)#\L\3,\E\1,\U\2#g&#39; filename</code></li>
+<li>特殊符号= 获取行号</li>
+<li>一条sed 命令执行多行sed命令 删除第三行到末尾的数字 并将10替换为01</li>
+<li><code>sed -e &#39;3,$d&#39; -e &#39;s#10#01#g&#39; filename</code></li>
+<li><code>sed &#39;3,$d;s#10#01#g&#39; filename</code></li>
+<li><code>sed -f person.sed filename</code> <code>person.sed</code>是一个sed脚本</li>
+<li>案例 一个文件100行，把第5，35，,70行单独拿出来</li>
+<li><code>sed -n &#39;3p;35p;70p&#39; filename</code></li>
+<li>特殊符号{}的用法</li>
+<li><code>sed -n &#39;2,4{p;=}&#39; filename</code></li>
+<li>l命令 打印中包含不可见字符</li>
+<li>转换字符 <code>tf &#39;abc&#39; &#39;ABC&#39; &lt; filename</code></li>
+<li>sed ‘y#abc#ABC#’ filename</li>
+<li>退出sed命令q 执行到某个地方不再执行</li>
+<li>从文件中读取数据 命令r </li>
+<li>sed ‘r num.txt’ filename</li>
+<li>保持空间和模式空间</li>
+<li>模式空间：</li>
+<li>n 清空当前模式空间，并读入下一行</li>
+<li>N 不清空当前模式空间，并读入下一行，并用\n连接模式空间的两行</li>
+<li>案例 用户名密码文件变为 stu=aaa </li>
+<li><code>sed &#39;N;s#\n#=#&#39; filename</code></li>
+<li>sed操作多个文件</li>
+<li>模拟其他命令</li>
+<li>cat sed -n ‘p’  sed ‘N’ sed ‘n’ sed ‘s# # #’</li>
+<li>grep sed -n ‘//p’ sed -n ‘// !p’ </li>
+<li>head sed -n ‘1,3p’ sed ‘2q’</li>
+<li>wc sed -n ‘$=’</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;## &lt;/p&gt;
+&lt;h3 id=&quot;sed&quot;&gt;&lt;a href=&quot;#sed&quot; class=&quot;headerlink&quot; title=&quot;sed&quot;&gt;&lt;/a&gt;sed&lt;/h3&gt;&lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;sed(stream editor)流编辑器&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sed -n 取消自动打印（sed会自动将全部未过滤内容输出）&lt;/li&gt;
+&lt;li&gt;sed -i 将更改作用到源文件，不加&lt;code&gt;-i&lt;/code&gt;则只会把&lt;code&gt;sed&lt;/code&gt;的输出修改而不会改变源文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;sed替换用法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sed &amp;#39;s#string1#string2#g&amp;#39; filename&lt;/code&gt;&lt;br&gt;&amp;ensp;&amp;ensp;&amp;ensp;其中&lt;code&gt;s&lt;/code&gt;代表&lt;code&gt;sub&lt;/code&gt;，意思是替换，&lt;code&gt;#&lt;/code&gt;是分隔符，&lt;code&gt;string1&lt;/code&gt;要替换的文本，&lt;code&gt;string1&lt;/code&gt;要替换成的文件，&lt;code&gt;g&lt;/code&gt;是&lt;code&gt;global&lt;/code&gt;全局的意思，可以不带&lt;code&gt;g&lt;/code&gt;，不带&lt;code&gt;g&lt;/code&gt;的意思是值替换第一个（想想&lt;code&gt;vim&lt;/code&gt;中的替换）。&lt;br&gt;&amp;ensp;&amp;ensp;&amp;ensp;&lt;code&gt;#&lt;/code&gt;可以换成别的字符，但是要换的话，3个&lt;code&gt;#&lt;/code&gt;都得换，换成的字符不能是&lt;code&gt;s&lt;/code&gt;、&lt;code&gt;g&lt;/code&gt;（当&lt;code&gt;s&lt;/code&gt;或&lt;code&gt;g&lt;/code&gt;出现在命令体中时）或&lt;code&gt;string1&lt;/code&gt;和&lt;code&gt;string2&lt;/code&gt;中的任何字符，如果非得使用上述字符，则加反斜线&lt;code&gt;\\&lt;/code&gt;。&lt;br&gt;sed 流编辑器 增删改查 过滤 取行
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://augustineccl.com/categories/Linux/"/>
+    
+    
+      <category term="linux" scheme="http://augustineccl.com/tags/linux/"/>
+    
+      <category term="sed" scheme="http://augustineccl.com/tags/sed/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WGAN前作：GAN问题分析</title>
+    <link href="http://augustineccl.com/2017/11/03/2017-11-03-GAN-question/"/>
+    <id>http://augustineccl.com/2017/11/03/2017-11-03-GAN-question/</id>
+    <published>2017-11-03T08:39:04.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DCGAN</title>
+    <link href="http://augustineccl.com/2017/11/02/2017-11-03-DCGAN/"/>
+    <id>http://augustineccl.com/2017/11/02/2017-11-03-DCGAN/</id>
+    <published>2017-11-02T08:06:42.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>前面咱们介绍了<code>GAN</code>，但是<code>GAN</code>的训练是不稳定的，<code>DCGAN</code>通过将<code>GAN</code>和<code>CNN</code>结合，并在上面加入一些限制，使得<code>DCGAN</code>训练较为稳定，并且能够使用<code>DCGAN</code>训练得到好的图像特征表示，然后使用网络的生成器和判别器作为特征抽取用于有监督任务。</blockquote>
+
+<a id="more"></a>
+<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><p>&ensp;&ensp;&ensp;文章的方法是基于最近在<code>CNN</code>架构上的三种变化提出的。</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1412.6806" target="_blank" rel="noopener">Springenberg et al., 2014</a>提出的全卷积网络，使用大步长的卷积操作代替<code>采样</code>操作，这样使得网络学习它自己的空间采样。文章将这种方法用在了判别器和生成器中。</li>
+<li>消除卷积网络上端的全连接层。<a href="https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html" target="_blank" rel="noopener">Mordvintsev et al.</a>在图像分类任务中使用全局平均采样代替全连接层，作者发现使用全局平均采用能够增加模型的稳定性而降低模型的收敛速度。因此文本直接将生成器和判别器的输入和输出的全连接层移除，而都采用卷积操作（卷积在一定程度上就是采样）。</li>
+<li>在除了生成器的输出层和判别器的输入层之外，每一层都使用<code>Batch Normalization(BN,批处理化)</code>。<code>BN</code>归一化每个神经元的输入为均值为0方差为1，这样解决了由低初始化引起的一些问题而且使得梯度在深度网络中传输的更好。<code>BN</code>已经被证明在<code>GAN</code>中很有用，使得<code>GAN</code>不会集中所有采样于一个点。</li>
+<li>对于生成器，除了输出层使用<code>tanh</code>激励函数以为其余层均使用<code>ReLU</code>。对于判别器，所有层都使用<code>LeakyReLU</code>。<br>&ensp;&ensp;&ensp;模型的总体结构如下：</li>
+</ul>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/DCGAN_model.png?raw=true" alt="DCGAN_model"><br>&ensp;&ensp;&ensp;上面是生成器，下面是判别器。</p>
+<p>&ensp;&ensp;&ensp;生成器的模型其实就是卷积的逆操作，如下图：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/DCGAN_dcnn.png?raw=true" alt="DCGAN_dcnn"></p>
+<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><h4 id="训练参数"><a href="#训练参数" class="headerlink" title="训练参数"></a>训练参数</h4><ul>
+<li>训练图像使用<code>tanh</code>将数值约束到<code>[-1,1]</code></li>
+<li>batch size为128</li>
+<li>初始化使用均值为0，方差为0.02的高斯分布</li>
+<li><code>LeakyReLU</code>参数为0.2</li>
+<li>使用<code>Adam Optimizer</code>，学习率设置为0.0002，动量项\(\beta_1\)为0.5</li>
+</ul>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p>&ensp;&ensp;&ensp;关于实验这里就不多说了，详细看原论文。</p>
+<p>&ensp;&ensp;&ensp;下图是模型在<code>LSUN</code>上面的效果。</p>
+<h4 id="向量算数"><a href="#向量算数" class="headerlink" title="向量算数"></a>向量算数</h4><p>&ensp;&ensp;&ensp;在<code>词嵌入</code>中，词向量<code>国王</code>-词向量<code>男人</code>+词向量<code>女人</code>的结果向量是一个跟词向量<code>女王</code>很相似的向量。</p>
+<p>&ensp;&ensp;&ensp;作者发现对于生成器向量<code>z</code>也有这个特点，如下图:</p>
+<p><img src="an with glasses, then sub" alt="DCGAN_va"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&ensp;&ensp;&ensp;虽然<code>DCGAN</code>在原始<code>GAN</code>中加入了很多限制使得其训练变得稳定，但是实际上<code>DCGAN</code>的训练还是不太稳定。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;前面咱们介绍了&lt;code&gt;GAN&lt;/code&gt;，但是&lt;code&gt;GAN&lt;/code&gt;的训练是不稳定的，&lt;code&gt;DCGAN&lt;/code&gt;通过将&lt;code&gt;GAN&lt;/code&gt;和&lt;code&gt;CNN&lt;/code&gt;结合，并在上面加入一些限制，使得&lt;code&gt;DCGAN&lt;/code&gt;训练较为稳定，并且能够使用&lt;code&gt;DCGAN&lt;/code&gt;训练得到好的图像特征表示，然后使用网络的生成器和判别器作为特征抽取用于有监督任务。&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="DL" scheme="http://augustineccl.com/categories/DL/"/>
+    
+    
+      <category term="GAN" scheme="http://augustineccl.com/tags/GAN/"/>
+    
+      <category term="DCGAN" scheme="http://augustineccl.com/tags/DCGAN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解LSTM（译）</title>
+    <link href="http://augustineccl.com/2017/10/29/2017-10-30-LSTM/"/>
+    <id>http://augustineccl.com/2017/10/29/2017-10-30-LSTM/</id>
+    <published>2017-10-29T11:28:01.000Z</published>
+    <updated>2018-01-25T02:22:05.459Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>LSTM(long short term memory, 长短记忆网络)广泛应用于文本，很多基于其的模型最近几年被提出来解决时序模型，因此对其的理解有助于将其应用于新问题。本文的工作主要是对<a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">博文</a>进行翻译，以理解LSTM</blockquote>
+
+<a id="more"></a>
+<h3 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h3><p>&ensp;&ensp;&ensp;人们的思考是持续性的，不是每秒都从头开始重新思考。当你读到这篇文章时，你都是在理解前面已经读过的单词的基础上理解每一个单词，你不会将前面的东西扔了重新思考。因此你的思考具有持续性。</p>
+<p>&ensp;&ensp;&ensp;但是传统的神经网络不能做到这样，想一下，如果你想预测电影中每一帧要发生什么，传统神经网络并不能使用电影前面的信息来推断下一帧要发生的事情。</p>
+<p>&ensp;&ensp;&ensp;循环神经网络可以做到这一点，通过循环的输入网络，使得信息能够保持住。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_RNN.png?raw=true" alt="LSTM_RNN"></p>
+<center font="8px">循环神经网络</center>
+
+<p>&ensp;&ensp;&ensp;在上图中的网络A，通过将输入\(x_t\)处理输出\(h_t\)。循环的存在使得信息能够从网络的当前步传递到下一步。</p>
+<p>&ensp;&ensp;&ensp;上图中循环的存在使得循环神经网络看起来不是那么容易理解。换了角度看，通过将循环神经网络每一步展开，如下图，循环神经网络可以被看做是多个相同网络的复制，每一个网络将信息传递给下一个网络。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_RNN_unroll.png?raw=true" alt="LSTM_RNN_unroll"></p>
+<center font="8px">展开的循环神经网络</center>
+
+<p>&ensp;&ensp;&ensp;这种像链式的结果很自然的使得RNN能够很好的应用与序列数据。</p>
+<p>&ensp;&ensp;&ensp;最近几年，循环神经网络被应用到了很多领域：机器翻译、语言模型、语言识别、图像描述等，对这些应用起着重大贡献是LSTMs，一种特殊的RNN，其效果比标准版本的RNN好很多，很多基于循环神经网络的应用使用的都是LSTM，本文讨论的就是它。</p>
+<h3 id="长短时依赖的问题"><a href="#长短时依赖的问题" class="headerlink" title="长短时依赖的问题"></a>长短时依赖的问题</h3><p>&ensp;&ensp;&ensp;RNN的作用是能够将前面的信息跟现在的工作连接起来，例如利用电影中前面的情节预测当前帧要发生什么。如果RNN能做到这一点的话，那么它是很有用的，但是它真的能完全做到这一点吗？不一定。</p>
+<p>&ensp;&ensp;&ensp;有时我们只需要最近的信息来预测当前的状态。例如，考虑一个语言模型，通过前面的词预测下一个词是什么，如果我们要预测<code>&quot;the cloud are in the sky&quot;</code>中的最后一个词<code>sky</code>，不需要太前面的信息，只要前面的<code>the cloud are in</code>的信息就可以预测<code>sky</code>。在这种情况下，预测所需要的与预测有关的前面的相关信息跟当前位置间隔很小，RNN的表现是很好的。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_RNN_gap_s.png?raw=true" alt="LSTM_RNN_gap_s"></p>
+<center font="8px">相关信息间隔很小</center>
+
+<p>&ensp;&ensp;&ensp;但是有的时候我们在预测时确需要更多的上下文，考虑我们要预测文本<code>&quot;I grew up in France...I speak fluent Franch&quot;</code>中的最后一个词。最近的信息只能告诉我们最后一个词是一种语言，而我们要更准确的知道是哪个词，我们需要得到前面的上下文<code>France</code>的信息，而<code>France</code>距离最后面是很远的。这种情况下，预测所需要的相关信息的间隔很大，很不幸的是，当间隔很大时，RNN不能学习到很远的信息。也就是说在这种情况下，RNN的效果不好。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_RNN_gap_b.png?raw=true" alt="LSTM"></p>
+<center font="8px">相关信息间隔很大</center>
+
+<p>&ensp;&ensp;&ensp;在理论上，RNNs完全能够解决这种<code>长时间依赖</code>问题。人们可以很小心的调参使得一些小的RNN-base模型能够有好的效果。但是，在实践中RNN并不能学习到<code>长时间依赖</code>信息。原因有很多，其中很重要的是<code>梯度爆炸</code>和<code>梯度消失问题</code>，详细可以看<a href="http://people.idsia.ch/~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf" target="_blank" rel="noopener">(1991) [German]</a>和<a href="http://www-dsi.ing.unifi.it/~paolo/ps/tnn-94-gradient.pdf" target="_blank" rel="noopener">Bengio, et al. (1994)</a>。</p>
+<h3 id="LSTM网络"><a href="#LSTM网络" class="headerlink" title="LSTM网络"></a>LSTM网络</h3><p>&ensp;&ensp;&ensp;LSTM(Long Short Term Memory Networks,长短时记忆网络)，是一种特殊的RNN网络，它能够学习到<code>长时间依赖</code>。它最早被介绍在<a href="http://deeplearning.cs.cmu.edu/pdfs/Hochreiter97_lstm.pdf" target="_blank" rel="noopener">Hochreiter &amp; Schmidhuber (1997)</a>，最近LSTM被人们广泛应用和改进。</p>
+<p>&ensp;&ensp;&ensp;所有的RNN网络的网络结构都是以重复单元构成的链式架构。在标准RNN中，这个重复单元是一种非常简单的结构，例如只含有一个单一的<code>tanh</code>层。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_RNN_repeat_module.png?raw=true" alt="LSTM_RNN_repeat_module"></p>
+<center font="8px">标准RNN的重复单元，只含有一层tanh</center>
+
+<p>&ensp;&ensp;&ensp;LSTM的结构和RNN一样也是链式的。但是它的重复单元不同。相对于RNN的重复单元只含有一层，LSTM的重复单元是通过特殊方式连接的四层。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_LSTM_repeat_moudle.png?raw=true" alt="LSTM_LSTM_repeat_module"></p>
+<center>LSTM的重复单元：含有相互连接的四层</center>
+
+<p>&ensp;&ensp;&ensp;接下来我们可以一步步的学习LSTM的详细结构。<br>&ensp;&ensp;&ensp;先来规定一下操作的定义：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_LSTM_sy.png?raw=true" alt="LSTM_LSTM_sy"></p>
+<center>神经网络单元&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;元素级操作&ensp;&ensp;&ensp;&ensp;矩阵转换&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;连接&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;复制&ensp;&ensp;&ensp;</center>
+
+<p>&ensp;&ensp;&ensp;前面的LSTM重复单元的途中，每条线都携带一个向量，从输出结点出来输入到其他结点去。粉红色的圆代表元素级的运算，如矩阵相加等。黄色的方块代表可训练的神经网络层，线合并的地方代表连接，线分开的地方，代表将一个输入复制成两个输出，输出到不同的地方去。</p>
+<h3 id="LSTM的核心概念"><a href="#LSTM的核心概念" class="headerlink" title="LSTM的核心概念"></a>LSTM的核心概念</h3><p>&ensp;&ensp;&ensp;LSTM的关键概念是细胞状态，在下图中最上面的水平线中携带的信息就是细胞状态。</p>
+<p>&ensp;&ensp;&ensp;细胞状态就像一个传输背包，它在经过整条链的过程中只进行很小的线性变换。所以细胞状态中的信息在通过整个链的过程中变化是很少的。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_LSTM_cell_state.png?raw=true" alt="LSTM_LSTM_cell_state"><br>&ensp;&ensp;&ensp;通过呼叫门，LSTM可以向细胞状态中添加或者移除信息。</p>
+<p>&ensp;&ensp;&ensp;门的作用是控制信息是否穿过，门由一个<code>sigmoid</code>层 和一个<code>元素级乘法操作</code>构成。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_LSTM_gates.png?raw=true" alt="LSTM_LSTM_gates"><br>&ensp;&ensp;&ensp;<code>sigmoid</code>层输出的值是<code>0~1</code>，决定组件的多少信息能够通过，如果是<code>0</code>代表任何信息都不能通过，如果是<code>1</code>代表任何信息都能通过。</p>
+<p>&ensp;&ensp;&ensp;LSTM有3个门，来控制和保护细胞状态。</p>
+<h3 id="一步一步走进LSTM"><a href="#一步一步走进LSTM" class="headerlink" title="一步一步走进LSTM"></a>一步一步走进LSTM</h3><p>&ensp;&ensp;&ensp;LSTM的第一步是决定细胞状态的信息哪些需要扔掉，哪些需要保留。这一决策是通过<code>忘记门</code>层来完成。<code>忘记门</code>通过结合\(h_{t-1}和x_t\)的信息，为每个\(C_{t-1}\)矩阵的元素生成一个在<code>0~1</code>之间的数，这个数的作用就是上面说的门上的<code>sigmoid</code>输出的数的作用。</p>
+<p>&ensp;&ensp;&ensp;回到前面讨论过的语言模型，在前面所有的词的基础上预测下一个词。在这个问题中，细胞状态的信息肯定包含了前一个主语的信息，而我们如果进入下一个主语预测，那么我们肯定希望忘记前一个主语的信息，也就是将前一个主语的信息从细胞状态中移除。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_step1.png?raw=true" alt="LSTM_step1"></p>
+<p>&ensp;&ensp;&ensp;下一步是决定哪些新信息需要被添加到细胞状态中。分为两步，首先使用一个称为<code>输入门</code>的<code>sigmoid</code>层决定哪些信息能够被加入。然后使用一个<code>tanh</code>层结合\(h_{t-1}和x_t\)为一个新的候选值\(\tilde{C_t}\)，最后将这两步的输出值结合起来得到添加到细胞状态的信息。<br>&ensp;&ensp;&ensp;回到语言模型模型，就是上一步已经将前一个主语丢掉了，这一步就是在细胞状态中加入新主语信息。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_step2.png?raw=true" alt="LSTM_step2"></p>
+<p>&ensp;&ensp;&ensp;现在更新细胞状态，将其从\(C_{t-1}\)更新到\(C_t\)，前面的两步已经把决策和数据都准备好了，现在只需将他们结合起来即可。</p>
+<p>&ensp;&ensp;&ensp;将旧状态乘以\(f_t\)，将状态中的信息需要忘记的去除掉。然后将得到的结果加上\(i_t * \tilde{C_t}\)，也就是将已经决定好要添加的信息添加到细胞状态上。</p>
+<p>&ensp;&ensp;&ensp;回到语言模型，这一步的意思就是丢掉旧信息添加新信息。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_step3.png?raw=true" alt="LSTM_step3"></p>
+<p>&ensp;&ensp;&ensp;最后，我们决定要输出什么。输出是基于细胞状态的，跟以前一样，先用\(h_{t-1}和x_t\)经过一个<code>sigmoid</code>来确定细胞状态的什么信息需要输出。将细胞状态经过一个<code>tanh</code>(将值限制在<code>-1</code>到<code>1</code>之间)后跟前面<code>sigmoid</code>输出相乘得到最终输出。因此我们输出了应该输出的东西。</p>
+<p>&ensp;&ensp;&ensp;回到语言模型的例子，因为刚看到了一个主语，那么看完之后要输出对下一个词的预测有影响的信息，比如跟动词相关的信息。例如，可能输出主语的单复数相关的信息，这样下一个词拿到这些信息就能决定动词的形式。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_step4.png?raw=true" alt="LSTM_step4"></p>
+<h3 id="LSTM变体"><a href="#LSTM变体" class="headerlink" title="LSTM变体"></a>LSTM变体</h3><p>&ensp;&ensp;&ensp;上面我们描述的是最基础的<code>LSTM</code>，但是不是所有的<code>LSTM</code>都与上面的形式一样的。事实上，每篇使用<code>LSTM</code>的论文中<code>LSTM</code>架构都会有或多或少的不同。变化不大，但是它们中的一些还是值得一提。</p>
+<p>&ensp;&ensp;&ensp;一种<code>LSTM</code>变体是来自<a href="ftp://ftp.idsia.ch/pub/juergen/TimeCount-IJCNN2000.pdf" target="_blank" rel="noopener">Gers &amp; Schmidhuber (2000)</a>，其在基本<code>LSTM</code>的基础上加入了<code>peephole connections(猫眼连接)</code>，也就是在每个门的输入上都加上细胞状态。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_v1.png?raw=true" alt="LSTM_v1"></p>
+<p>&ensp;&ensp;&ensp;上面在三个门上都加入了细胞状态，其实在一些论文中可能会只在某几个门上加。</p>
+<p>&ensp;&ensp;&ensp;另一种变体是将<code>忘记门</code>和<code>输入门</code>耦合在一起。不再像原始<code>LSTM</code>那样分别决策要扔掉什么信息和添加什么信息到细胞状态，现在同时进行这两个决策。只有当要添加东西的时候才取扔掉旧东西，只有当要扔掉旧东西时才添加新东西。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_v2.png?raw=true" alt="LSTM_v2"></p>
+<p>&ensp;&ensp;&ensp;一个更经典的变体是<code>GRU(Gated Recurrent Unit)</code>，来自<a href="https://arxiv.org/pdf/1406.1078v3.pdf" target="_blank" rel="noopener">Cho, et al. (2014)</a>，他将<code>忘记门</code>和<code>输入门</code>合并成一个<code>更新门</code>，将<code>细胞状态</code>和<code>隐藏状态</code>合并成一个状态，还做了一些其他的改的。<code>GRU</code>的结构比<code>LSTM</code>简单，很快得到广泛应用。</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_v3.png?raw=true" alt="LSTM_v3"></p>
+<p>&ensp;&ensp;&ensp;这就是一些比较著名的<code>LSTM</code>变体。当然还有很多其他的变体，像<a href="https://arxiv.org/pdf/1508.03790v2.pdf" target="_blank" rel="noopener">Deep Gated RNNs</a>。当然也有很多跟<code>LSTM</code>完全不同的结构来学习<code>长时间依赖</code>的，如<a href="http://arxiv.org/pdf/1402.3511v1.pdf" target="_blank" rel="noopener">Clockwork RNNs</a><br>&ensp;&ensp;&ensp;哪些变体最好？这些变体的变化起作用吗？<a href="http://arxiv.org/pdf/1503.04069.pdf" target="_blank" rel="noopener">Greff, et al. (2015)</a>对流行的变体做了一个比较，发现他们都是相同的。<a href="http://jmlr.org/proceedings/papers/v37/jozefowicz15.pdf" target="_blank" rel="noopener">Jozefowicz, et al. (2015)</a>对上万种<code>RNN</code>架构做了测试，发现一些模型在特定工作下的效果比<code>LSTM</code>好。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&ensp;&ensp;&ensp;前面我提到的人民使用RNNs取得的显著效果中，大部分是使用<code>LSTM</code>实现的。这说明，它在大多数任务上的效果都会很好。 </p>
+<p>&ensp;&ensp;&ensp;<code>LSTM</code>的原理写成一大堆公式很很吓人的，但是如果跟着本文一步一步的走下来，会很清楚的明白这些式子和<code>LSTM</code>的原理。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;LSTM(long short term memory, 长短记忆网络)广泛应用于文本，很多基于其的模型最近几年被提出来解决时序模型，因此对其的理解有助于将其应用于新问题。本文的工作主要是对&lt;a href=&quot;http://colah.github.io/posts/2015-08-Understanding-LSTMs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;博文&lt;/a&gt;进行翻译，以理解LSTM&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="DL" scheme="http://augustineccl.com/categories/DL/"/>
+    
+    
+      <category term="DL" scheme="http://augustineccl.com/tags/DL/"/>
+    
+      <category term="LSTM" scheme="http://augustineccl.com/tags/LSTM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用对比学习进行图像描述</title>
+    <link href="http://augustineccl.com/2017/10/29/2017-10-30-contrastivelearning/"/>
+    <id>http://augustineccl.com/2017/10/29/2017-10-30-contrastivelearning/</id>
+    <published>2017-10-29T05:46:40.000Z</published>
+    <updated>2018-01-25T02:22:05.460Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>人工智能的发展愈演愈烈，计算机视觉近几年的研究方向也在图像文本的融合方面发展，近几年，图像描述、图像问答、图文匹配等任务在各大会议上活动频繁，笔者最近读完了<code>CVPR2017</code>中关于图像描述的文章（<a href="/2017/10/16/2017-10-16-2017cvprimagecaption/">CVPR文章总结</a>），感觉意犹未尽，于是又将目光瞅准了<code>ICLR2017</code>，很快找到了下面这篇文章，文章突出了一种学习方法–对比学习，文章表示可以将对比学习应用于现有的任何图像描述模型中从而提高模型的效果。</blockquote>
+
+<a id="more"></a>
+<p><a href="https://arxiv.org/abs/1710.02534" target="_blank" rel="noopener">论文地址</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>&ensp;&ensp;&ensp;最近，图像描述取得了很大的进展，但是，现有模型往往忽略了描述的特殊性，好的描述一般会从特殊的角度去描述图像的内容。文章提出了一种对比学习方法，通过在现有模型上面加两个限制，以此提高模型生成描述的特殊性，而且还能保持描述总体的质量。文章证明了对比学习方法具有很好的泛化性，可以用于拥有各种各样架构的模型。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&ensp;&ensp;&ensp;现有的模型生成的描述有时会显得很僵硬，而且由于其有时是直接从训练集的描述中直接拿到一个片段放在当前描述中，使得描述很别扭。</p>
+<p>&ensp;&ensp;&ensp;在现实中，当人们对一张图片进行描述时，他们一般会侧重一些特殊的图像中的物体去描述图像的内容。特殊的描述往往能够让人民很简单的从  相似的图片中找出目标图片。文章的后续章节证明了缺少<code>特殊性</code>会影响图像描述的质量。</p>
+<p>&ensp;&ensp;&ensp;从技术角度看，缺少特殊性与模型生成描述的方式有关。现有模型都是通过最大似然训练得到，通过最大化给定图片下生成描述的概率来优化模型。但是这种方法并没有显示的考虑特殊性，不同图像的描述之间的不同没有被显示的考虑。文章发现，现有模型产生的描述跟训练集的描述有很大的相似，而没有<code>特殊性</code>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;人工智能的发展愈演愈烈，计算机视觉近几年的研究方向也在图像文本的融合方面发展，近几年，图像描述、图像问答、图文匹配等任务在各大会议上活动频繁，笔者最近读完了&lt;code&gt;CVPR2017&lt;/code&gt;中关于图像描述的文章（&lt;a href=&quot;/2017/10/16/2017-10-16-2017cvprimagecaption/&quot;&gt;CVPR文章总结&lt;/a&gt;），感觉意犹未尽，于是又将目光瞅准了&lt;code&gt;ICLR2017&lt;/code&gt;，很快找到了下面这篇文章，文章突出了一种学习方法–对比学习，文章表示可以将对比学习应用于现有的任何图像描述模型中从而提高模型的效果。&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="papper" scheme="http://augustineccl.com/categories/papper/"/>
+    
+    
+      <category term="papper" scheme="http://augustineccl.com/tags/papper/"/>
+    
+      <category term="Image Caption" scheme="http://augustineccl.com/tags/Image-Caption/"/>
+    
+      <category term="对比学习" scheme="http://augustineccl.com/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>带复制机制的循环神经网络用于Image Caption</title>
+    <link href="http://augustineccl.com/2017/10/24/2017-10-24-LSTMC/"/>
+    <id>http://augustineccl.com/2017/10/24/2017-10-24-LSTMC/</id>
+    <published>2017-10-24T13:14:37.000Z</published>
+    <updated>2018-01-25T02:22:05.459Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote>这是一篇CVPR2017年的论文，使用带有复制机制的LSTM网络进行图像描述，它能够对新物体进行描述。</blockquote><br><a id="more"></a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p><a href="https://arxiv.org/abs/1708.05271" target="_blank" rel="noopener">论文地址</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>&ensp;&ensp;&ensp;图像描述需要很大的训练图像-文本对，然而，在实践中获得足够的训练对的花费是很大的，由此使得最近提出的图像描述模型的建模能力被限制在训练集的语料库之内，也就是很难去描述语料库之外的物体。</p>
+<p>&ensp;&ensp;&ensp;在本篇论文中，作者提出了一种带有复制机制的LSTM网络（简称为LSTM-C），它的网络结构是包含复制机制的卷积神经网络加上能够进行图像描述的循环神经网络，它能够描述在训练语料库外的新的物体。</p>
+<p>&ensp;&ensp;&ensp;模型先使用物体探测数据集训练对新物体的分类器。然后通过一个带有复制机制的解码器RNN进行描述的生成，它会从新物体中选择合适的词放在描述的合适位置。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&ensp;&ensp;&ensp;图像描述是一项跟计算机视觉和自然语言处理相关的研究方向。现有的方法都是基于CNN-RNN机制的。如下图所示：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LRCN.png?raw=true" alt="LRCN"></p>
+<p>&ensp;&ensp;&ensp;但是这种方法没有对于训练集语料库之外的物体进行探测。但是获得更丰富的训练数据集花费又是很大的。</p>
+<p>&ensp;&ensp;&ensp;文章通过使用额外的视觉探测数据集训练物体探测器来消除上面提到的限制。文章提出一种带有复制机制的LSTM网络。复制机制来自于人类语言交流中，通过将输入的一个片段不做任何修改直接放入到输出中，在人类的语言过程中这一机制的体现是<code>死记硬背</code>，人类在组织语言时是通过从记忆中的一些话中拿到一些片段直接放入到要说的话中。作者将复制机制扩展为从另外的语料库中选择单词并将其放在图像的描述中的合适的位置。</p>
+<p>&ensp;&ensp;&ensp;文章的主要贡献就是将使用复制机制从外部物体探测数据选取物体和生成模型生成句子有效结合。</p>
+<h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><h4 id="Image-Caption"><a href="#Image-Caption" class="headerlink" title="Image Caption"></a>Image Caption</h4><p>&ensp;&ensp;&ensp;图像描述模型可以被分成三种类型：</p>
+<ul>
+<li>基于模板</li>
+<li>基于搜索</li>
+<li>基于语言模型</li>
+</ul>
+<h4 id="Novel-Object-Caption"><a href="#Novel-Object-Caption" class="headerlink" title="Novel Object Caption"></a>Novel Object Caption</h4><p>&ensp;&ensp;&ensp;新事物描述是一个最近被广泛关注的新问题，通过使用已有的图像-文本对和没有配对的图像文本数据在RNN-base模型的基础上对训练集语料库以外的事物进行描述。</p>
+<h3 id="带复制机制的图像描述"><a href="#带复制机制的图像描述" class="headerlink" title="带复制机制的图像描述"></a>带复制机制的图像描述</h3><p>&ensp;&ensp;&ensp;文章提出的模型通过将复制机制加入到CNN-RNN图像描述模型的网络中的解码阶段，使得在产生下一个单词的时候不仅需要RNN的解码还需要复制机制的作用。</p>
+<p>&ensp;&ensp;&ensp;模型的总体架构如下：<br><span id="CNN_LSTM"><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C.png?raw=true" alt="LSTM-C"></span></p>
+<h4 id="符号定义"><a href="#符号定义" class="headerlink" title="符号定义"></a>符号定义</h4><p>&ensp;&ensp;&ensp;假设图像\(I\in R^{D_v}\)的描述为\(S={w_1,w_2,…,w_{N_s}},w_t\in R^{D_w}\)，描述包含\(N_s\)个单词，这样句子就能够被描述成\(D_w\times N_s\)的矩阵\(W\equiv [w_1,w_2,…,w_{N_s}]\)。</p>
+<p>&ensp;&ensp;&ensp;图像文本对数据的文本字典用\(W_g\)表示。文章使用另外的图像识别数据集训练物体探测器，非成对的物体识别数据集的字典用\(W_c\)，图像I中含有词\(w_i\in W_c\)表示的物体的概率用\(\delta(w_i)\)表示。下图是一般情况下两种字典的关系：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C_DIC.png?raw=true" alt="LSTM_C_dic"></p>
+<p>&ensp;&ensp;&ensp;至于物体探测器用什么方式进行探测，文章对于单标签的图像数据集（如<code>ImageNet</code>数据集）使用<code>CNN</code>训练分类器，对于多标签的图像数据集（如<code>MSCOCO</code>）使用<code>多实例学习</code>。</p>
+<h4 id="图像描述中的序列模型"><a href="#图像描述中的序列模型" class="headerlink" title="图像描述中的序列模型"></a>图像描述中的序列模型</h4><p>&ensp;&ensp;&ensp;受机器翻译中的<code>encoder-decoder</code>框架的启发，最近的图像描述框架都是基于<code>encoder-decoder</code>的。这种模型首先将图像编码成为固定变量的向量，然后将这个向量解码成目标句子。模型的训练目标是最小化能力函数\(E(I,W)=-log\ Pr(W|I)\)，也就是最大化在给定图像I的条件下生成描述W的概率。</p>
+<p>&ensp;&ensp;&ensp;在生成每一个词的时候，通过RNNs会得到前面已经生成的词的模型，所以概率\(Pr(W|I)\)可以被表示成为：</p>
+<p>$$<br>log\ Pr(W|I)=\sum_{t=1}^{N_s}log\ Pr(w_t|I,w_0,w_1,…,w_{t-1})<br>$$</p>
+<p>&ensp;&ensp;&ensp;模型的框架图跟上面的<a href="#CNN_LSTM">图</a>是一样的。</p>
+<h4 id="复制机制"><a href="#复制机制" class="headerlink" title="复制机制"></a>复制机制</h4><p>&ensp;&ensp;&ensp;复制机制已经被证明在使用外部字典的序列学习（如文本摘要）中很有效(<a href="https://arxiv.org/abs/1708.05271" target="_blank" rel="noopener">论文</a>)。复制机制来自于人类语言交流中，通过将输入的一个片段不做任何修改直接放入到输出中，在人类的语言过程中这一机制的体现是<code>死记硬背</code>，人类在组织语言时是通过从记忆中的一些话中拿到一些片段直接放入到要说的话中。作者将复制机制扩展为从另外的语料库中选择单词并将其放在图像的描述中的合适的位置。</p>
+<p>&ensp;&ensp;&ensp;在第t步的解码时，生成的单词\(w{t+1}\)直接从图像探测数据集中复制过来的概率为：</p>
+<p>$$<br>Pr_t^c(w_{t+1})=\varphi(w_{t+1}^T M_c)h^t\delta(w_{t+1})<br>$$<br>其中\(M_c\in R^{D_w\times D_h}\)代表文本的转换映射矩阵，\(\varphi\)代表元素级的非线性激活函数，\(h_t\)代表<code>LSTM</code>的上一步解码的输出。\(\delta(w_{t+1})\)代表词\(w_{t+1}\)在当前图像中的概率。</p>
+<h4 id="带有复制机制的LSTM"><a href="#带有复制机制的LSTM" class="headerlink" title="带有复制机制的LSTM"></a>带有复制机制的LSTM</h4><p>&ensp;&ensp;&ensp;将复制机制加入到LSTM中取描述新的物体，在LSTM解码过程中预测下一个单词时同时利用解码生成和复制机制得到下一词的概率。复制机制得到的词可能没在LSTM用来训练的成对数据集中出现，这样使用复制机制就能描述成对数据集之外的新物体。</p>
+<p>&ensp;&ensp;&ensp;这样就可以定义最后的概率了，对于第t步的解码过程，得到单词\(w_{t+1}\)的概率为：</p>
+<p>$$<br>Pr_t(w_{t+1})=<br>\begin{cases}<br>\frac{1}{K}e^{Pr_t^g(w_{t+1})}\quad\quad\quad\quad\quad\quad\quad,w_{t+1}\in W_g\bigcap \overline{W_c}\\<br>\frac{\lambda}{K}e^{Pr_t^g(w_{t+1})}+\frac{1-\lambda}{K}e^{Pr_t^c(w_{t+1})},w_{t+1}\in W_g\bigcap W_c\\<br>\frac{1}{K}e^{Pr_t^c(w_{t+1})}\quad\quad\quad\quad\quad\quad\quad,w_{t+1}\in \overline{W_g}\bigcap W_c\\<br>0\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad ,otherwise<br>\end{cases}<br>$$<br>&ensp;&ensp;&ensp;其中\(\lambda\)代表复制机制和LSTM生成对下一次生成起作用的调节比重，K代表softmax的归一化项，\(Pr_t^g(w_{t+1})\)代表LSTM生成词\(w_{t+1}\)的概率。</p>
+<p>&ensp;&ensp;&ensp;这个概率的计算就是<code>copy layer</code>的作用。</p>
+<p>&ensp;&ensp;&ensp;则损失函数表示为：</p>
+<p>$$<br>E(I|S)=-\sum_{t=0}^{N_s-1}log\ Pr_t(w_{t+1})<br>$$</p>
+<p>&ensp;&ensp;&ensp;N表示训练集中的图像文本对数目，则要解决的问题可以总结为以下最优化问题：</p>
+<p>$$<br>\min_{\theta}\frac{1}{N}\sum_{i=1}^{N}E(I^{(i)}|S^{(i)})+|\theta|^2<br>$$</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><ul>
+<li>Held-out MSCOCO<br>&ensp;&ensp;&ensp;去除不含<code>bottle</code>，<code>bus,</code>，<code>couch,</code>，<code>microwave,</code>，<code>pizza,</code>，<code>racket</code>， <code>suitcase,</code>和<code>zebra</code>八种物体的数据剩下的数据集。每张图片有五句描述，</li>
+<li>ImageNet<br>&ensp;&ensp;&ensp;挑选出物体不在MSCOCO数据集中出现的图像进行训练，ImageNet数据集用来训练物体探测器。</li>
+</ul>
+<h3 id="实验设置"><a href="#实验设置" class="headerlink" title="实验设置"></a>实验设置</h3><h4 id="特征和参数设置"><a href="#特征和参数设置" class="headerlink" title="特征和参数设置"></a>特征和参数设置</h4><p>&ensp;&ensp;&ensp;图像特征使用16层VGG网络的第七层全连接网络特征。单词表示为<code>one-hot</code>和<code>glove</code>。多实例学习采用从VGG网络扩展来的全连接网络(FCN)。</p>
+<h4 id="评估标准"><a href="#评估标准" class="headerlink" title="评估标准"></a>评估标准</h4><h5 id="METEOR"><a href="#METEOR" class="headerlink" title="METEOR"></a>METEOR</h5><p>&ensp;&ensp;&ensp;参加网上博文：<a href="http://blog.csdn.net/jkwwwwwwwwww/article/details/52846728" target="_blank" rel="noopener">机器翻译中的评价标准</a></p>
+<p>&ensp;&ensp;&ensp;有的时候<code>METEOR</code>分数很高，但是新物体描述能力很弱，于是为了有效的测试模型对新物体的描述能力使用<code>F1-分数</code>。</p>
+<h5 id="F1分数"><a href="#F1分数" class="headerlink" title="F1分数"></a>F1分数</h5><p>&ensp;&ensp;&ensp;下面是从<a href="https://baike.baidu.com/item/F1%E5%88%86%E6%95%B0/13864979?fr=aladdin" target="_blank" rel="noopener">百度百科</a>参考的一张图：</p>
+<p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_c_F1.png?raw=true" alt="LSTN_c_F1"></p>
+<p>&ensp;&ensp;&ensp;为了更好的评估模型对新物体的描述能力，使用了下面两种评估标准：</p>
+<h5 id="Novel"><a href="#Novel" class="headerlink" title="Novel"></a>Novel</h5><p>&ensp;&ensp;&ensp;在生成的句子中的新物体占总的新物体数量的比例。</p>
+<h5 id="Accuracy"><a href="#Accuracy" class="headerlink" title="Accuracy"></a>Accuracy</h5><p>&ensp;&ensp;&ensp;描述新物体正确的比例。即对含有新物体图片描述正确的数量与含有此新物体的总的图片数量的比值。</p>
+<h4 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h4><p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C_exp.png?raw=true" alt="LSTM_C_exp"><br>&ensp;&ensp;&ensp;分析可以得出，文章提出的模型超过其他模型，除了<code>couch</code>和<code>microwave</code>，因为这些东西在物体探测器中不容易判别，所以效果不好。<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C_exp2.png?raw=true" alt="LSTM_C_exp2"><br>&ensp;&ensp;&ensp;上图是在ImageNet数据集的实验结果。<br>&ensp;&ensp;&ensp;生成的描述对比图：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C_exp3.png?raw=true" alt="LSTM_C_exp3"></p>
+<h4 id="lambda-的分析"><a href="#lambda-的分析" class="headerlink" title="\(\lambda\)的分析"></a>\(\lambda\)的分析</h4><p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM_C_lambda.png?raw=true" alt="LSTM_C_lambda"><br>&ensp;&ensp;&ensp;在0~0.6很平稳，在0.2时达到最大，大于0.6时下降很快，说明文章提出的复制机制起到了作用。</p>
+<hr>
+
+<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><ul>
+<li><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM-C.pptx?raw=true" target="_blank" rel="noopener">组会PPT</a></li>
+<li><a href="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/LSTM-C.pdf?raw=true" target="_blank" rel="noopener">组会pdf</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote&gt;这是一篇CVPR2017年的论文，使用带有复制机制的LSTM网络进行图像描述，它能够对新物体进行描述。&lt;/blockquote&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="papper" scheme="http://augustineccl.com/categories/papper/"/>
+    
+    
+      <category term="papper" scheme="http://augustineccl.com/tags/papper/"/>
+    
+      <category term="CVPR" scheme="http://augustineccl.com/tags/CVPR/"/>
+    
+      <category term="ImageCaption" scheme="http://augustineccl.com/tags/ImageCaption/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>位置推荐论文阅读：POI2Vec</title>
+    <link href="http://augustineccl.com/2017/10/23/2017-10-22-POI2Vec/"/>
+    <id>http://augustineccl.com/2017/10/23/2017-10-22-POI2Vec/</id>
+    <published>2017-10-23T02:18:44.000Z</published>
+    <updated>2018-01-25T02:22:05.459Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote>实验室的一些同学最近在搞位置推荐，为了跟他们有共同话题，就跟着他们阅读了一些论文，发现很有意思，一些思路和解决问题的思路历程很值得深思。下面就说一篇刚阅读完的一篇论文：<code>POI2Vec</code>。</blockquote><br><a id="more"></a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p><a href="http://www1.spms.ntu.edu.sg/~ymchee/papers/POI2Vec.pdf" target="_blank" rel="noopener">论文地址</a></p>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><p>&ensp;&ensp;&ensp;由于本文的方法是从<code>word2vec</code>创新而来，所以在继续向下读之前务必要熟悉<code>word2vec</code>的原理。<br><a href="http://augustineccl.com/2017/10/22/2017-10-20-wordembedding/">word2vec原理</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>&ensp;&ensp;&ensp;随着社交生活中位置信息数据的增加，关于POI（Point-of-Interest）的研究如用户移动行为建模和POI地点推荐等被广泛研究。最近，推荐用户下一个可能去的POI地点成为一个研究的热点，很多对此的研究论文已经发表。<br>&ensp;&ensp;&ensp;现在大多数已经存在的推荐系统研究注重于给用户推荐POI热点，很少有研究是给地点推荐用户。本文研究的课题是，给定一个POI热点，预测哪些用户将访问这个热点。<br>&ensp;&ensp;&ensp;文章提出一种隐含表示模型：POI2Vec，能够对地理因素进行建模。地理因素已经被证明为影响用户行为的一种重要因素。已有的模型对地理因素的建模不好。<br>&ensp;&ensp;&ensp;一个用户的行为是受他近期的签到行为和他的偏好影响的。但是用户的签到数据很稀疏，而且很难去对POI的连续转换和用户偏好进行建模。在NLP中，word2vector技术用来进行词嵌入，捕捉单词之间的序列语义关系。最近，word2vectpr被用在POI推荐中，但是存在两个问题，一个是不能捕捉POI的地理影响。地理因素在POI推荐中起着重要的作用，第二，它分别对序列影响和用户偏好分别建模，因为访问行为一般同时与序列影响和用户偏好有关，所以同时对两者进行建模会更合理。<br>&ensp;&ensp;&ensp;为了对地理因素进行建模，文章提出一个隐含表示模型，称为POI2Vec，在模型中，每个POI被表示为一个隐低维空间内的一个向量，向量的內积表示POI之间的联系。我们使用层次softmax进行学习隐含向量空间。对于层次softmax来说，很重要的一点是建立一个合适的二叉树。这里，不使用word2vector中使用的哈弗曼树，文章提出一种二叉树建立方法，能够对地理因素进行建模。我们层次化的对POI进行分割得到POI的一些不同区域。因为一个POI可能会对周围的POI进行影响，所以我们将一个POI放入多个周围的区域中。在二叉树中，一个POI可能会出现不只一次，这样能够捕捉到POI跟其他POI的丰富的关系。</p>
+<h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><p>&ensp;&ensp;&ensp;已有方法：</p>
+<ul>
+<li>Collaborative Filtering(协同过滤)</li>
+<li>Factorization models(分解模型)</li>
+<li>Markov Chain(马尔科夫)</li>
+<li>Hidden Markov Chain(隐马尔科夫)</li>
+<li>Metric Embedding(矩阵嵌入)<br>&ensp;&ensp;&ensp;文章的工作与现有工作至少有两点不同：</li>
+<li>从一个不同的视角考虑一个新的任务：找到一个POI在接下来的几个小时内的潜在用户。</li>
+<li>提出的模型同时学习序列影响和用户偏好。<h3 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h3>&ensp;&ensp;&ensp;用户集合表示为U，POI集合表示为L，每个POI地点l的地理表示为\(\langle l^{Lat},l^{Lon}\rangle\)。用H表示用户的签到数据集，每次签到(u,l,t)表示用户u在时间t时访问地点l。<br>&ensp;&ensp;&ensp;下面给出问题的定义：<br>&ensp;&ensp;&ensp;给定用户集合U和POI集合L，并指定时间t和时间阈值\(\tau\)，预测在时间范围\((t,t+\tau)\)内有哪些用户会访问地点l。<h3 id="POI2Vec-表示模型"><a href="#POI2Vec-表示模型" class="headerlink" title="POI2Vec 表示模型"></a>POI2Vec 表示模型</h3><h4 id="POI2Vec对连续序列影响建模"><a href="#POI2Vec对连续序列影响建模" class="headerlink" title="POI2Vec对连续序列影响建模"></a>POI2Vec对连续序列影响建模</h4>&ensp;&ensp;&ensp;先用POI2Vec对POI地点的序列影响进行建模。<br>&ensp;&ensp;&ensp;POI2Vec思路很简单，就是将word2vec用于POI，动机是：作者观察到签到数据中的POI分布和文本中word的分布很类似。<br>&ensp;&ensp;&ensp;给定用户u和他当前的地点\(l_c^u\)，用\(C(l_c^u)\)代表用户u在访问\(l_c^u\)之前的一定时间范围内访问的所有地点，即\(C(l_c^u)=\lbrace l_i^u;0&lt;\Delta(l_i^u,l_c^u)&lt;\tau\rbrace\)。\(\Delta(l_i^u,l_c^u)\)代表\(l_i^u\)和\(l_c^u\)之间的时间长度。目标是得到给定其POI地点的访问上下文之后，预测会访问当前POI的概率。<br>&ensp;&ensp;&ensp;将每个POI表示成一个向量\(w(l)\in R^D\)，采用CBOW(Continuous Bag-of-Words,连续词袋模型)对其进行建模。<br>&ensp;&ensp;&ensp;则概率Pr(l|C(l))为：<br>$$<br>Pr(l|C(l))=\frac{e^{(w(l)\cdot\phi(C(l)))}}{\sum_{l_i\in L}e^{w(l_i)\cdot\phi(C(l))}}<br>$$<br>&ensp;&ensp;&ensp;其中：<br>$$<br>\phi(C(l))=\sum_{l_c\in C(l)}w(l_c)<br>$$<br>&ensp;&ensp;&ensp;看到上面的式子是不是感觉很熟悉，其实它就是<code>softmax的POI版本</code>（仔细思考这句话）。<br>&ensp;&ensp;&ensp;同word2vec一样当POI数量很大时计算上面的式子的时间复杂度太高。所以需要优化，优化一般使用<code>层次softmax</code>。层次softmax的关键步骤是建立二叉树，在word2vec中是通过单词的频率建立哈弗曼树，而在此文章中，为了考虑POI的地理因素，作者提出了一种创建二叉树的方法，具体看下一节。<h4 id="加入地理因素"><a href="#加入地理因素" class="headerlink" title="加入地理因素"></a>加入地理因素</h4>&ensp;&ensp;&ensp;地理因素在POI推荐中起着重要作用，那么怎么在上面提到的层次softmax建二叉树过程中加入地理因素呢？一个矩形每次将上次得到的区域二等分，反复分割就得到了\(2^n\)个矩形，这样的分割方式可以形成一个二叉树。 先区域分割，分割成一个一个的小区域，注意在分区域时，每次等分，最后分割成一个一个同样大小的矩形，矩形的边长记为\(\theta\)，这样每一个POI地点都属于一个区域。在同一个区域内的POI点被视为<code>很接近</code>。但是有的时候不同区域的POI在距离上也是相近的，那么怎么办呢？使得一个POI可以属于多个区域，以一个POI为中心，做一个\(\theta\times\theta\)的矩形，如果此矩形与其他区域重叠，则将此POI赋于到这些重叠的区域中。具体如下图所示<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/poi2vec_g.png?raw=true" alt="POI2Vec_g"><br>&ensp;&ensp;&ensp;如图将区域分成\(R_{00},R_{01},R_{10},R_{11}\)四个区域，那么\(l_1\)属于\(R_{01}\)，\(l_2\)属于\(R_{11}\)，\(l_4\)属于\(R_{00}\)，\(l_3\)属于\(R_{10}\)，但是可以从图中明显可以看出\(l_1和l_2\)也是很近的，这个时候就需要将一个POI点赋于多个区域了，按照上面的方法，分别以\(l_1和l_2\)为中心画出长度为\(\theta\)的矩形（图中红色边框的矩形）。可以看到以\(l_1和l_2\)为中心的矩形跟区域\(R_{01}和R_{11}\)都有重叠，所以将\(l_1\)加入到\(R_{11}\)区域中，将\(l_2\)加入到\(R_{01}\)区域中，其他的点类似。<br>&ensp;&ensp;&ensp;很明显可以发现，每个POI可能属于的区域数目为1、2或4个。<br>&ensp;&ensp;&ensp;为了后面创建哈弗曼树，文章定义了一个POI属于一个区域的概率：以POI为中心的矩形与区域重叠部分的面积占区域总面积的比例。为了后续使用，将这个概率记为：\(Pr(R_i)^l\)，\(R_i\)代表编号为i的区域。<br>&ensp;&ensp;&ensp;然后就是创建层次softmax的二叉树了，先使用区域创建顶层二叉树，如下图蓝线上面的树，可以发现这是一颗完全二叉树，树的叶子结点就是最小的区域。其实这棵树就代表区域的分割过程。然后以创建好的二叉树的叶子结点为根分别创建哈弗曼树，哈弗曼树创建的依据在此POI上用户们的签到频率。<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/POI2Vec_tree.png?raw=true" alt="POI2Vec_tree"><br>&ensp;&ensp;&ensp;总结一下，本文提出的POI2Vec模型有两个优点，一个是它考虑了地理因素的影响，在同一个区域的POI在地理上是相近的，二是在创建的二叉树中，每个POI可能有多条路径，这样会使得模型效果更好，因为一个POI跟其他POI产生很多关系会被充分捕捉。<h4 id="概率估计"><a href="#概率估计" class="headerlink" title="概率估计"></a>概率估计</h4>&ensp;&ensp;&ensp;现在来定义一下各个结果概率：<br>&ensp;&ensp;&ensp;跟在word2vec中一样，在二叉树的非叶子结点上是可训练的参数，最终从跟到树的叶子计算的概率就是在当前上下文下访问l的概率：<br>$$<br>path=(b_0^l,b_1^l,…,b_n^l)\\<br>Pr(l|C(l))^{path}=\prod_{b_i^l\in path}Pr(b_i^l|\phi(C(l)))\\<br>Pr(b_i|\phi(C(l))=sigmoid(\psi(b_i^l)\phi(C(l)))\\<br>$$<br>&ensp;&ensp;&ensp;其中\(\psi(b_i^l)\in R^D\)代表每个结点上的参数向量。<br>&ensp;&ensp;&ensp;但是一个POI在二叉树中可能有多条路径，因此需要将它们结合起来计算概率：<br>$$<br>Pr(l|C(l))=\prod_{path_k\in P(l)}Pr(path_k)\cdot Pr(l|C(l))^{path_k}<br>$$<br>&ensp;&ensp;&ensp;其中\(P(l)\)代表POI点l在二叉树中所有路径的集合。<br>&ensp;&ensp;&ensp;如果\(path_k\)为l的路径，而l属于区域\(R_x\)，那么\(Pr(path_k)=Pr(R_x)^l\)，而\(Pr(R_x)^l\)就是POI属于某一个区域的概率，上面定义过它的计算。<h4 id="参数学习"><a href="#参数学习" class="headerlink" title="参数学习"></a>参数学习</h4>&ensp;&ensp;&ensp;学习目标为最大化得到所有POI点的后验概率。<br>$$<br>\Theta=arg\min_{\Theta}\prod_{(l,C(l))\in H}Pr(l|C(l))<br>$$<br>&ensp;&ensp;&ensp;其中\(\Theta\)是一些可学习的参数。<h3 id="将POI2Vec用于建模用户偏好"><a href="#将POI2Vec用于建模用户偏好" class="headerlink" title="将POI2Vec用于建模用户偏好"></a>将POI2Vec用于建模用户偏好</h3>&ensp;&ensp;&ensp;前面已经使用POI2Vec对连续POI序列预测下一个POI问题进行建模，现在再加入用户偏好。<br>&ensp;&ensp;&ensp;跟前面的POI概率定义相似，用户u访问POI点l的概率为：<br>$$<br>Pr(l|u)=\frac{e^{w(l)\cdot x(u)}}{Z(u)}<br>$$<br>&ensp;&ensp;&ensp;其中\(Z(u)=\sum_{l_i\in L}e^{(w(l_i)\cdot x(u))}\)，同样的Pr(l|u)也可以使用上面创建好的层次softmax树计算，而且可以使用同一棵树训练计算（这样就同时对连续POI序列和用户偏好进行建模了）。<br>&ensp;&ensp;&ensp;如果在计算时既有连续POI上下文也有用户偏好数据，并假设它们相互独立，那么：<br>$$<br>Pr(l|u,C(l))=Pr(l|u)xPr(l|C(l))<br>$$<br>&ensp;&ensp;&ensp;综上所述，用户在某一时间访问某一地点的概率为：<br>$$<br>Pr(u,l,t)=<br>\begin{cases}<br>Pr(l|u,C(l))\quad if\ C(l)\ exists\\<br>Pr(l|u)\quad\quad\quad\quad otherwise<br>\end{cases}<br>$$<br>&ensp;&ensp;&ensp;目标函数为：<br>$$<br>\Theta=arg\max_{\Theta}\prod_{(u,l,t)\in H}Pr(u,l,t)<br>$$<h3 id="预测潜在访问用户"><a href="#预测潜在访问用户" class="headerlink" title="预测潜在访问用户"></a>预测潜在访问用户</h3>&ensp;&ensp;&ensp;用户u在不久后访问l的似然概率为\(F(x(u)\cdot w(l),w(l_c)\cdot w(l))\)，\(x(u)\cdot w(l)\)反映用户偏好，\(w(l_c)\cdot w(l)\)反映序列影响。\(F\)是聚合函数，一般聚合函数可以使用<code>Max</code>函数或者<code>Sum</code>函数。<br>&ensp;&ensp;&ensp;对于每个用户计算他的分数：<br>$$<br>s(u,l)=<br>\begin{cases}<br>F((x(u)\cdot w(l),w(l_c)\cdot w(l)))\quad with\ recent\ positions\\<br>x(u)\cdot w(l)\quad\quad\quad\quad\quad\quad\quad\quad\quad otherwise<br>\end{cases}<br>$$<br>&ensp;&ensp;&ensp;根据分数找到Top-k个用户即可。<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3>&ensp;&ensp;&ensp;实验结果：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/POI2Vec_exp.png?raw=true" alt="POI2Vec_exp"></li>
+<li>FMC: the factorized Markov chain model</li>
+<li>ME: Metric Embedding model</li>
+<li>NS: the negative sampling technique for word2vec</li>
+<li>HS: conventional hierarchical softmax with Huffman tree</li>
+<li>FPMC: factorizing personalized Markov chains</li>
+<li>PRME: personalized ranking metric embedding</li>
+<li>CWRAP: explore the context of locations to model user preference</li>
+<li>U: only utilize user preference to predict potential visitors.</li>
+<li>URP: only consider users with recentpositions.</li>
+<li>MAX: Max aggregation function is used</li>
+<li>SUM: utilize the Sum aggregation function</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote&gt;实验室的一些同学最近在搞位置推荐，为了跟他们有共同话题，就跟着他们阅读了一些论文，发现很有意思，一些思路和解决问题的思路历程很值得深思。下面就说一篇刚阅读完的一篇论文：&lt;code&gt;POI2Vec&lt;/code&gt;。&lt;/blockquote&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="papper" scheme="http://augustineccl.com/categories/papper/"/>
+    
+    
+      <category term="papper" scheme="http://augustineccl.com/tags/papper/"/>
+    
+      <category term="word2vec" scheme="http://augustineccl.com/tags/word2vec/"/>
+    
+      <category term="AAAI2017" scheme="http://augustineccl.com/tags/AAAI2017/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>词嵌入以及word2vec</title>
+    <link href="http://augustineccl.com/2017/10/22/2017-10-20-wordembedding/"/>
+    <id>http://augustineccl.com/2017/10/22/2017-10-20-wordembedding/</id>
+    <published>2017-10-22T01:31:17.000Z</published>
+    <updated>2018-01-25T02:22:05.459Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&ensp;&ensp;&ensp;</p>
+<p>##</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;正文&quot;&gt;&lt;a href=&quot;#正文&quot; class=&quot;headerlink&quot; title=&quot;正文&quot;&gt;&lt;/a&gt;正文&lt;/h2&gt;&lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;&lt;/p&gt;
+&lt;p&gt;##&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="nlp" scheme="http://augustineccl.com/categories/nlp/"/>
+    
+    
+      <category term="NLP" scheme="http://augustineccl.com/tags/NLP/"/>
+    
+      <category term="word2vec" scheme="http://augustineccl.com/tags/word2vec/"/>
+    
+      <category term="embedding" scheme="http://augustineccl.com/tags/embedding/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CVPR 2017 Image Caption论文阅读笔记</title>
+    <link href="http://augustineccl.com/2017/10/16/2017-10-16-2017cvprimagecaption/"/>
+    <id>http://augustineccl.com/2017/10/16/2017-10-16-2017cvprimagecaption/</id>
+    <published>2017-10-16T14:44:46.000Z</published>
+    <updated>2018-01-25T02:22:05.458Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<p>&ensp;&ensp;&ensp;最近在看cvpr2017的papper，看到了一些有关图像描述的好文章，读了一下，做个笔记。</p>
+<a id="more"></a>
+<h3 id="Attend-to-You-Personalized-Image-Captioningwith-Context-Sequence-Memory-Networks"><a href="#Attend-to-You-Personalized-Image-Captioningwith-Context-Sequence-Memory-Networks" class="headerlink" title="Attend to You: Personalized Image Captioningwith Context Sequence Memory Networks"></a><a href="https://arxiv.org/abs/1704.06485" target="_blank" rel="noopener">Attend to You: Personalized Image Captioningwith Context Sequence Memory Networks</a></h3><p>&ensp;&ensp;&ensp;亮点在于亮点：</p>
+<ul>
+<li>个性化图像描述</li>
+<li>使用上下文序列记忆网络进行学习，而非RNNs，LSTMs</li>
+</ul>
+<p>&ensp;&ensp;&ensp;文章指出了两个应用，一个是在社交网络中，人们拍了照片要发图的时候，能够自动生成描述，二是自动生成标签。<br>&ensp;&ensp;&ensp;文章使用一个记忆仓库存储多种类型的上下文信息，每次将捕捉到的单词加入到记忆中，保留长时间信息，随后使用记忆生成下一个词。这样避免了因梯度消失而引起的信息损失。随后使用CNN记忆架构学习周围信息进行上下文理解。</p>
+<h4 id="Context-Sequence-Memory-Network-CSMN"><a href="#Context-Sequence-Memory-Network-CSMN" class="headerlink" title="Context Sequence Memory Network(CSMN)"></a>Context Sequence Memory Network(CSMN)</h4><p>&ensp;&ensp;&ensp;CSMN网络架构如下：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/csmn.png?raw=true" alt="csmn"></p>
+<p>&ensp;&ensp;&ensp;模型建立了一个记忆仓库，记忆仓库中含有三种类型的记忆：</p>
+<ul>
+<li>图像记忆</li>
+<li>用户偏好记忆</li>
+<li>序列历史记忆</li>
+</ul>
+<p>&ensp;&ensp;&ensp;如上图中的a图，将图像先用CNN处理，取CNN中的某一层数据作为图像特征，然后将图像特征乘以一个向量W即可得到最终图像记忆，向量W是可训练的参数。而用户偏好的计算是使用<code>TF-IDF</code>算法得到用户的前<code>TOP-K</code>个单词。然后用<code>one-hot</code>向量表示这些单词，再乘以一个向量W即得到的向量就是用户偏好记忆。同样向量W是可训练的参数。</p>
+<p>&ensp;&ensp;&ensp;而序列历史记忆则是将前面预测到的单词连接在一起即可。如图中\(y_1,…,y_{t-1}\)就是序列历史记忆。每次生成新单词后会将其加入到序列历史记忆中。</p>
+<p>&ensp;&ensp;&ensp;可以发现每种记忆一共训练了两份，分别以<code>a</code>和<code>c</code>为下标。每份记忆训练的W也是不同的，所以最终得到的两种记忆有可能是不同的（因为训练得到的<code>W</code>是不同的）。</p>
+<p>&ensp;&ensp;&ensp;那么训练的两份记忆是用来干啥的呢？下面一边介绍模型的预测流程一边说明：</p>
+<p>&ensp;&ensp;&ensp;先将上一次预测到的单词经过一个线性变换得到一个查询\(q_t\)，然后使用使用查询与第一份记忆做点乘并做<code>softmax</code>操作，这样就得到了记忆注意力向量\(p_t\)，\(p_t\)的作用是选择哪些记忆会对下一个单词的产生起效果。将\(p_t\)与第二份记忆相乘即可得到能对下一个单词的产生起作用的记忆。随后对得到的记忆进行卷积操作，通过使用不同的卷积核，我们能够通过卷积得到不同的记忆单元的组合表示。随后通过线性变换和<code>softmax</code>即可得到下一个单词的概率。每次产生新的单词会更新序列历史记忆。</p>
+<p>&ensp;&ensp;&ensp;对于hashtag的预测，我们只需要去掉word output memory即可。</p>
+<h4 id="为什么记忆CNN有用"><a href="#为什么记忆CNN有用" class="headerlink" title="为什么记忆CNN有用"></a>为什么记忆CNN有用</h4><p>&ensp;&ensp;&ensp;尽管卷积记忆网络不能对结构化的时序数据建模，除非加入时序信息。但是文章提出的网络有所不同，序列记忆能够使得CNN捕捉时序信息。用户偏好记忆可以使得CNN能够正确的捕捉上下文单词的重要性。例如用户当前相关的单词有<code>fashion</code>、<code>street</code>和<code>landscape</code>，如果<code>fashion</code>在用户偏好记忆的最上面，而<code>street</code>在与<code>fashion</code>相关的词旁边，那么用户的偏好可以被认为是：<code>street fashion</code>，而如果<code>landscape</code>在最上面，<code>street</code>在<code>landscape</code>相关词周围，那么用户偏好被认为是<code>landscape</code>。如果不使用记忆CNN，那么<code>street</code>的这两种用法是很难区分的。</p>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/attenp_exp.png?raw=true" alt="exp"></p>
+<p>### </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;正文&quot;&gt;&lt;a href=&quot;#正文&quot; class=&quot;headerlink&quot; title=&quot;正文&quot;&gt;&lt;/a&gt;正文&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;最近在看cvpr2017的papper，看到了一些有关图像描述的好文章，读了一下，做个笔记。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="papper" scheme="http://augustineccl.com/categories/papper/"/>
+    
+    
+      <category term="papper" scheme="http://augustineccl.com/tags/papper/"/>
+    
+      <category term="Image Caption" scheme="http://augustineccl.com/tags/Image-Caption/"/>
+    
+      <category term="CVPR" scheme="http://augustineccl.com/tags/CVPR/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown中使用公式</title>
+    <link href="http://augustineccl.com/2017/10/13/2017-10-13-markdownlatex/"/>
+    <id>http://augustineccl.com/2017/10/13/2017-10-13-markdownlatex/</id>
+    <published>2017-10-13T03:13:23.000Z</published>
+    <updated>2018-01-25T02:22:05.458Z</updated>
+    
+    <content type="html"><![CDATA[<p><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&ensp;&ensp;&ensp;markdown作为一种简洁方便的写作方式，广受博主们的喜爱，但是有的时候需要向markdown中加入公式，该怎么办呢？<br><a id="more"></a><br>&ensp;&ensp;&ensp;我一般使用两种方式，一种是使用在线公式编辑器编辑公式保存为图片，然后将图片上传到github等平台，然后在markdown中关联即可。</p>
+<p>&ensp;&ensp;&ensp;另一种是使用<code>MathJax</code>引擎。</p>
+<p>&ensp;&ensp;&ensp;使用方式很简单：</p>
+<ul>
+<li>将下面代码加入到markdown文件中，作用是在当前文件引入<code>MathJax</code>引擎。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>&ensp;&ensp;&ensp;然后再使用<code>latex</code>方式编辑公式即可，用<code>$$公式$$</code>表示行间公式，本来latex中使用<code>\(公式\)</code>表示行内公式，但因为Markdown中\是转义字符，所以在Markdown中输入行内公式使用<code>\\(公式\\)</code></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="使用大括号"><a href="#使用大括号" class="headerlink" title="使用大括号"></a>使用大括号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;cases&#125;</span><br><span class="line">\mu=\frac&#123;1&#125;&#123;n&#125;\sum_&#123;i&#125;x\_i\\\\</span><br><span class="line">\sigma^2=\frac&#123;1&#125;&#123;n&#125;\sum_&#123;i&#125;(x\_i-\mu)^2</span><br><span class="line">\end&#123;cases&#125;$$</span><br></pre></td></tr></table></figure>
+<p>$$<br>\begin{cases}<br>\mu=\frac{1}{n}\sum_{i}x_i\\<br>\sigma^2=\frac{1}{n}\sum_{i}(x_i-\mu)^2<br>\end{cases}$$</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&quot;正文&quot;&gt;&lt;a href=&quot;#正文&quot; class=&quot;headerlink&quot; title=&quot;正文&quot;&gt;&lt;/a&gt;正文&lt;/h2&gt;&lt;p&gt;&amp;ensp;&amp;ensp;&amp;ensp;markdown作为一种简洁方便的写作方式，广受博主们的喜爱，但是有的时候需要向markdown中加入公式，该怎么办呢？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="工具" scheme="http://augustineccl.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="tools" scheme="http://augustineccl.com/tags/tools/"/>
+    
+      <category term="markdown" scheme="http://augustineccl.com/tags/markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Auto-encoder by forest</title>
+    <link href="http://augustineccl.com/2017/10/11/2017-10-10-eforest/"/>
+    <id>http://augustineccl.com/2017/10/11/2017-10-10-eforest/</id>
+    <published>2017-10-11T11:55:51.000Z</published>
+    <updated>2018-01-25T02:22:05.458Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote>国内大神周志华即前段时间发表的媲美（号称)深度神经网络的深度森林之后又发表了用森林实现自动编码器。作为国内机器学习界首屈一指的大牛，不管其提出的模型效果怎样，阅读其文章肯定能使我们学习一些有用的东西。怀着这样的心情，我阅读了这篇文章。</blockquote><br><a id="more"></a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p><a href="https://arxiv.org/pdf/1709.09018.pdf" target="_blank" rel="noopener">论文原文</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>&ensp;&ensp;&ensp;自动编码器是一种很重要的算法，一般使用深度神经网络实现。文章提出一种全新实现自动编码其的方法：使用森林实现。文章提出一种方法使用决策树的一些信息完成编码和解码操作。实验显示，eforest有低的重建误差，而且效率高。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&ensp;&ensp;&ensp;自动编码器是一类将输入数据映射到隐藏空间，然后再映射到原始空间的模型，它使用重建误差作为目标函数。自动编码器分为两个过程：编码和解码。编码过程将原始数据映射到隐藏空间，解码数据将数据从隐藏空间映射到原始数据空间。传统实现这两个过程的方式是使用神经网络。<br>&ensp;&ensp;&ensp;集成学习是一种强大的学习方法。它通过使用训练多个学习期，然后将这些学习器结合起来完成任务。<br>&ensp;&ensp;&ensp;决策树集成方法是集成学习中一种常用方法，bagging和boosting都通常采用决策树作为子学习器。随机森林是bagging的变种，GBDT是boosting的变种。GBDT有很多有效的实现，如XGBOOST。<br>&ensp;&ensp;&ensp;文章提出了一种编码森林（EncoderForest），通过一个集成树模型进行前向编码和反向解码，而且可以使用监督或者无监督训练。实验显示EncoderFroest有如下优点:</p>
+<ul>
+<li>准确： 它的实验重建误差比使用MLP和CNN的自动编码器低。</li>
+<li>有效： efroest在一个单一KNL(多核CPU)上运行比CNN-Base自动编码器在一个Titan-X GPU上运行还快。</li>
+<li>容错率：训练好的模型能够正常运行即使模型部分损坏。</li>
+<li>重利用： 在同一个领域下，使用一个数据集训练的模型可以直接应用到另一个数据集下。<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3>&ensp;&ensp;&ensp;自动编码器有连个基本的功能，编码和解码。对于一个森林来说，编码并不困难，因为至少其叶节点信息可以被看做一种编码，甚至可以说，结点集合的一个子集或者路径的分支都能够为编码提供更多的信息。<h4 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h4>&ensp;&ensp;&ensp;首先我们提出模型的编码过程。对于给定的一个训练过的有T棵树的集成树模型（也可以是空的森林，编码过程即使森林形成过程），前向编码过程将输入数据送到每棵树的根节点，并计算每棵树，得到其所属的叶节点，最后返回一个T维向量，这个T维向量的每一项是每棵树中求到的上述叶节点在树中的编号。注意，算法跟决策树的分割规则无关。只需要是T棵树即可。<br>&ensp;&ensp;&ensp;算法伪代码如下：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_algo1.png?raw=true" alt="ae_algo1"><h4 id="解码过程"><a href="#解码过程" class="headerlink" title="解码过程"></a>解码过程</h4>&ensp;&ensp;&ensp;一般来说，决策树都是用来前向预测，将数据计算从树的根节点到叶子结点，但是其反向重建是未定义的。<br>&ensp;&ensp;&ensp;下面通过一个小例子来探索解码过程。<br>&ensp;&ensp;&ensp;假设我们正在解决一个二分类问题，数据有三个属性，第一个和第二个属性是数值型属性，第三个属性是布尔型属性（取值为<code>YES, NO</code>），第四个属性是一个三值属性，取值可以是<code>RED，BLUE，GREEN</code>。给定一个实例<code>x</code>，<code>xi</code>代表<code>x</code>的第<code>i</code>个属性值。<br>&ensp;&ensp;&ensp;现在我们假设我们在编码过程形成一个森林，如下图：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_forest.png?raw=true" alt="ae_eforest_forest"><br>&ensp;&ensp;&ensp;现在我们只知道，实例<code>x</code>落在每棵树的哪个结点，上图中的红色结点，我们的目标是重构实例<code>x</code>。<br>&ensp;&ensp;&ensp;文章提出了一种简洁有效的反向重建方法。<br>&ensp;&ensp;&ensp;首先，在树中的每个叶子结点对应于一条唯一的从根到叶子的路径。在上面的图中已经用红色标出这样的路径。<br>&ensp;&ensp;&ensp;然后，每条路径都会对应一条符号规则，所以我们就得到了n条（树的数目）符号规则：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_rule.png?raw=true" alt="ae_eforest_rule"><br>&ensp;&ensp;&ensp;然后，我们可以根据上面的规则推出MCR(最大完备规则)，最大完备规则的意思是，在规则中的每一个约束的范围不能再扩大。如果扩大，则会产生冲突。<br>&ensp;&ensp;&ensp;例如，由上面的规则集我们可以得到MCR:<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_mcr.png?raw=true" alt="ae_eforest_mcr"><br>&ensp;&ensp;&ensp;可以发现MCR中每一项都不能再扩大范围了，如果扩大会与上面的规则集中的规则的某一项产生冲突。<br>&ensp;&ensp;&ensp;那么显然，原始的数据肯定落在有MCR定义的范围内。<br>&ensp;&ensp;&ensp;计算完MCR之后，就可以根据MCR重构原始样本了，目录型属性如上面的第三和第四属性只需要根据MCR中的指定取即可，而数值型属性则可以根据MCR中的范围取一个特殊值即可（中位数、均值、或者最大最小值）。<br>&ensp;&ensp;&ensp;计算MCR的伪代码如下：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_algo2.png?raw=true" alt="ae_eforest_algo2"><br>&ensp;&ensp;&ensp;根据上面的描述，现在可以总结一下解码的过程。给定T棵树和编码完的T维向量:<br>&ensp;&ensp;&ensp;首先根据编码完的T维向量从树中得到T个决策规则，再根据这些规则得到MCR，再根据MCR重构得到x，算法如下：<br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_algo3.png?raw=true" alt="ae_eforest_algo3"><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_exp_image.png?raw=true" alt="ae_eforest_exp_image"><br><img src="https://github.com/BlasphemyAngels/MarkDownPhotos/blob/master/ae_eforest_exp_image2.png?raw=true" alt="ae_eforest_exp_image2"></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote&gt;国内大神周志华即前段时间发表的媲美（号称)深度神经网络的深度森林之后又发表了用森林实现自动编码器。作为国内机器学习界首屈一指的大牛，不管其提出的模型效果怎样，阅读其文章肯定能使我们学习一些有用的东西。怀着这样的心情，我阅读了这篇文章。&lt;/blockquote&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="DL" scheme="http://augustineccl.com/categories/DL/"/>
+    
+    
+      <category term="ensemble learning" scheme="http://augustineccl.com/tags/ensemble-learning/"/>
+    
+      <category term="Auto-encoder" scheme="http://augustineccl.com/tags/Auto-encoder/"/>
+    
+      <category term="forest" scheme="http://augustineccl.com/tags/forest/"/>
+    
+  </entry>
+  
+</feed>

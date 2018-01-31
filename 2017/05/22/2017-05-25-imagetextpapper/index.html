@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+    </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-apple-touch.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Image-Text matching,papper," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="承影" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;Image-Text matching是与多个方向相关的一个任务，下面就展示一下我自己收集的一些论文。">
+<meta name="keywords" content="Image-Text matching,papper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image-Text matching papper">
+<meta property="og:url" content="http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/index.html">
+<meta property="og:site_name" content="承影">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;Image-Text matching是与多个方向相关的一个任务，下面就展示一下我自己收集的一些论文。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-25T02:22:05.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Image-Text matching papper">
+<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;Image-Text matching是与多个方向相关的一个任务，下面就展示一下我自己收集的一些论文。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/"/>
+
+
+
+
+
+  <title>Image-Text matching papper | 承影</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?03ef3974d5c6181e6730d0d9fdc56b1a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">承影</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Artemis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="承影">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Image-Text matching papper</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-22T16:31:57+08:00">
+                2017-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/papper/" itemprop="url" rel="index">
+                    <span itemprop="name">papper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/05/22/2017-05-25-imagetextpapper/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/05/22/2017-05-25-imagetextpapper/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/05/22/2017-05-25-imagetextpapper/" class="leancloud_visitors" data-flag-title="Image-Text matching papper">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,697
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&ensp;&ensp;&ensp;<font color="#0099ff" size="5">Image-Text matching</font>是与多个方向相关的一个任务，下面就展示一下我自己收集的一些论文。</p>
+<a id="more"></a>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h3><ul>
+<li><p>Image Retrieval</p>
+<ul>
+<li><p>Under Review CVPR&ensp;<font color="red">A类</font> 2017</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1511.06267" target="_blank" rel="noopener">Asymmetrically Weighted CCA And Hierarchical Kernel Sentence Embedding For Image &amp; Text Retrieval<br></a>引用量：1</li>
+</ul>
+</li>
+<li><p>in submission for TPAMI</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1704.03470" target="_blank" rel="noopener">Learning Two-Branch Neural Networks for Image-Text Matching Tasks<br></a>引用量：0</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1611.09392" target="_blank" rel="noopener">Generating Holistic 3D Scene Abstractions for Text-based Image Retrieval<br></a>引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>VQA</p>
+<ul>
+<li>arXiv<ul>
+<li><a href="https://arxiv.org/abs/1701.07149" target="_blank" rel="noopener">Hierarchical Recurrent Attention Network for Response Generation<br></a>引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Image Caption &amp; Image Annonation</p>
+<ul>
+<li>arXiv<ul>
+<li><a href="https://arxiv.org/abs/1705.05102y" target="_blank" rel="noopener">Learning Semantics for Image Annotation<br></a>引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>RL</p>
+<ul>
+<li><p>Under Review CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1612.00563" target="_blank" rel="noopener">Self-critical Sequence Training for Image Captioning<br></a>引用量：3</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1612.00370" target="_blank" rel="noopener">Improved Image Captioning via Policy Gradient optimization of SPIDEr<br></a>引用量：4</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h3><ul>
+<li><p>基于检索</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1511.06078" target="_blank" rel="noopener">Learning Deep Structure-Preserving Image-Text Embeddings<br></a>引用量：19</p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Tran_Aggregating_Image_and_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Aggregating Image and Text Quantized Correlated Components<br></a> 引用量：1</p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Liu_DeepFashion_Powering_Robust_CVPR_2016_paper.pdf" target="_blank" rel="noopener">DeepFashion: Powering Robust Clothes Recognition and Retrieval with Rich Annotations<br></a> 引用量：10</p>
+</li>
+</ul>
+</li>
+<li><p>ECCV&ensp;<font color="red">B类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1604.02426" target="_blank" rel="noopener">CNN Image Retrieval Learns from BoW: Unsupervised Fine-Tuning with Hard Examples<br></a>引用量：16</p>
+</li>
+<li><p><a href="https://www.cise.ufl.edu/~zizhao/paper_list/eccv2016.pdf" target="_blank" rel="noopener">Kernel-Based Supervised Discrete Hashing for Image Retrieval<br></a>引用量：1</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1604.01325" target="_blank" rel="noopener">Deep Image Retrieval: Learning global representations for image search<br></a>引用量：12</p>
+</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1608.07973" target="_blank" rel="noopener">Linking Image and Text with 2-Way Nets<br></a>引用量：1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Multimodal </p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="http://z-yt.net/tmp/cvpr2016/content/papers/8851c601.p" target="_blank" rel="noopener">MDL-CW: A Multimodal Deep Learning Framework with CrossWeights<br></a> 引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>图像生成</p>
+<ul>
+<li><p>ICML&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1605.05396" target="_blank" rel="noopener">Generative Adversarial Text to Image Synthesis<br></a>引用量：46</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Visual Grounding</p>
+<ul>
+<li><p>ECCV&ensp;<font color="red">B类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1608.00272" target="_blank" rel="noopener">Modeling Context in Referring Expressions<br></a>引用量：8</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1608.00525" target="_blank" rel="noopener">Modeling Context Between Objects for Referring Expression Understanding<br></a>引用量：3</p>
+</li>
+<li><p><a href="https://link.springer.com/chapter/10.1007%2F978-3-319-46484-8_42" target="_blank" rel="noopener">Structured Matching for Phrase Localization<br></a> 引用量：2</p>
+</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1511.07067" target="_blank" rel="noopener">Visual Word2Vec (vis-w2v): Learning Visually Grounded Word Embeddings Using Abstract Scenes<br></a>引用量：6</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Image Caption &amp; Image Annonation</p>
+<ul>
+<li><p>ICLR</p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1511.06361" target="_blank" rel="noopener">Order-Embeddings of Images and Language<br></a>引用量：31 <br>在视觉-语义的层级上对其做偏序结构处理</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.04590v1" target="_blank" rel="noopener">Trainable performance upper bounds for image and video captioning<br></a>引用量：2</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.02793" target="_blank" rel="noopener">Generating Images from Captions with Attention<br></a>引用量：25</p>
+</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1506.01144" target="_blank" rel="noopener">What value do explicit high level concepts have in vision to language problems?<br></a>引用量：8</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1603.03925" target="_blank" rel="noopener">Image Captioning with Semantic Attention<br></a>引用量：36</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1605.05395" target="_blank" rel="noopener">Learning Deep Representations of Fine-grained Visual Descriptions<br></a>引用量：16</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1603.08486" target="_blank" rel="noopener">Learning to Read Chest X-Rays: Recurrent Neural Cascade Model for Automated Image Annotation<br></a>引用量：4</p>
+</li>
+</ul>
+</li>
+<li><p>ECCV&ensp;<font color="red">B类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1607.08822" target="_blank" rel="noopener">SPICE: Semantic Propositional Image Caption Evaluation<br></a>引用量：12</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1512.03958v1" target="_blank" rel="noopener">RNN Fisher Vectors for Action Recognition and Image Annotation<br></a>引用量：5</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1605.01379" target="_blank" rel="noopener">Leveraging Visual Question Answering for Image-Caption Ranking<br></a>引用量：4</p>
+</li>
+</ul>
+</li>
+<li><p>BMVC&ensp;<font color="red">C类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1511.04590" target="_blank" rel="noopener">Oracle performance for visual captioning<br></a>引用量：2</li>
+</ul>
+</li>
+<li><p>Meeting of the Association for Computational Linguistics</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1603.06059" target="_blank" rel="noopener">Generating Natural Questions About an Image<br></a>引用量：1</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1606.04621v2" target="_blank" rel="noopener">Image Caption Generation with Text-Conditional Semantic Attention<br></a>引用量：1</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1611.01646" target="_blank" rel="noopener">Boosting Image Captioning with Attributes<br></a>引用量：4</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1612.01887" target="_blank" rel="noopener">Knowing When to Look: Adaptive Attention via A Visual Sentinel for Image Captioning<br></a>引用量：3</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>文本相似</p>
+<ul>
+<li><p>HICSS</p>
+<ul>
+<li><a href="http://people.cs.georgetown.edu/~clay/research/pubs/shields-hicss-2016.pdf" target="_blank" rel="noopener">Text-Based Document Similarity Matching Using Sdtext<br></a> 引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Generate Model</p>
+<ul>
+<li><p>arXiv</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1602.07416" target="_blank" rel="noopener">Learning to Generate with Memory<br></a>引用量：5</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Multi-task learning</p>
+<ul>
+<li><p>SigKdd&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="http://www.kdd.org/kdd2016/papers/files/rpp0423-linA.pdf" target="_blank" rel="noopener">Multi-Task Feature Interaction Learning<br></a>引用量：0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>VQA</p>
+<ul>
+<li><p>ECCV&ensp;<font color="red">B类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1511.05234" target="_blank" rel="noopener">Ask, Attend and Answer: Exploring Question-Guided Spatial Attention for Visual Question Answering<br></a>引用量：39</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1606.08390" target="_blank" rel="noopener">Revisiting Visual Question Answering Baselines<br></a>引用量：14</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1604.04808" target="_blank" rel="noopener">Learning Models for Actions and Person-Object Interactions with Transfer to Question Answering</a></p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1605.01379" target="_blank" rel="noopener">Leveraging Visual Question Answering for Image-Caption Ranking<br></a>引用量：4</p>
+</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="http://z-yt.net/tmp/cvpr2016/content/papers/8851c064.pdf" target="_blank" rel="noopener">Deep Supervised Hashing for Fast Image Retrieval<br></a> 引用量：5</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.03416" target="_blank" rel="noopener">Visual7W: Grounded Question Answering in Images<br></a>引用量：34 <br> 李飞飞老师的文章，这篇提出了一个新的数据集Visual7W</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.07394" target="_blank" rel="noopener">Where To Look: Focus Regions for Visual Question Answering<br></a>引用量：29 <br>加入attention机制的一篇文章</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.06973" target="_blank" rel="noopener">Ask Me Anything: Free-form Visual Question Answering Based on Knowledge from External Sources<br></a>引用量：12 <br> 沈春华老师的文章，这篇加入了外接知识库</p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Kafle_Answer-Type_Prediction_for_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Answer-Type Prediction for Visual Question Answering<br></a> 引用量：7</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.05756" target="_blank" rel="noopener">Image Question Answering using Convolutional Neural Network with Dynamic Parameter Prediction<br></a></p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Yang_Stacked_Attention_Networks_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Stacked Attention Networks for Image QuestionAnswering<br></a> 采用多次关注聚焦的方式来处理定位问题关注点</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1511.02799" target="_blank" rel="noopener">Neural Module Networks</a> <br>根据问题不同动态组合网络</p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Tapaswi_MovieQA_Understanding_Stories_CVPR_2016_paper.pdf" target="_blank" rel="noopener">MovieQA: Understanding Stories in Movies through Question-Answering</a></p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Zhang_Yin_and_Yang_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Yin and Yang: Balancing and Answering Binary Visual Questions</a></p>
+</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1610.01465" target="_blank" rel="noopener">Visual Question Answering: Datasets, Algorithms, and Future Challenges<br></a> 综述性文章</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1607.05910" target="_blank" rel="noopener">Visual Question Answering: A Survey of Methods and Datasets<br></a> 综述性文章</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1603.02814" target="_blank" rel="noopener">Image Captioning and Visual Question Answering Based on Attributes and External Knowledge<br></a> 沈春华老师的文章，提取高层次语义概念的图像特征</p>
+</li>
+</ul>
+</li>
+<li><p>AAAI&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1506.00333" target="_blank" rel="noopener">Learning to Answer Questions From Image Using Convolutional Neural Network<br></a></li>
+</ul>
+</li>
+<li><p>NIPS&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1606.00061" target="_blank" rel="noopener">Hierarchical Question-Image Co-Attention for Visual Question Answering<br></a> 采用图像attention问题，再用问题attention图像</li>
+</ul>
+</li>
+<li><p>PMLR</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1603.01417" target="_blank" rel="noopener">Dynamic Memory Networks for Visual and Textual Question Answering<br></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>图像匹配</p>
+<ul>
+<li><p>ECCV&ensp;<font color="red">B类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1605.05923v1" target="_blank" rel="noopener">Matching Handwritten Document Images<br></a>引用量：3</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1603.06041v1" target="_blank" rel="noopener">Learning Image Matching by Simply Watching Video<br></a>引用量：3</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Cross-Modal Retrieval</p>
+<ul>
+<li><p>SigKdd&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="http://www.kdd.org/kdd2016/papers/files/rpp0086-caoA.pdf" target="_blank" rel="noopener">Deep Visual-Semantic Hashing for Cross-Modal Retrieval<br></a>引用量：6</li>
+</ul>
+</li>
+<li><p>ICMR&ensp;<font color="red">B类</font></p>
+<ul>
+<li><a href="http://dl.acm.org/citation.cfm?doid=2911996.2912000" target="_blank" rel="noopener">Correlation Autoencoder Hashing for Supervised Cross-Modal Search<br></a>引用量：2</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1602.06697" target="_blank" rel="noopener">Correlation Hashing Network for Efficient Cross-Modal Retrieval<br></a>引用量：3</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>RL</p>
+<ul>
+<li><p>ICLR</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1511.06732" target="_blank" rel="noopener">Sequence Level Training with Recurrent Neural Networks<br></a>引用量：56</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2015"><a href="#2015" class="headerlink" title="2015"></a>2015</h3><ul>
+<li><p>基于检索</p>
+<ul>
+<li><p>ICCV&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1504.06063" target="_blank" rel="noopener">Multimodal Convolutional Neural Networks for Matching Image and Sentence<br></a>引用量：31</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1509.06243" target="_blank" rel="noopener">LEWIS: Latent Embeddings for Word Images and their Semantics<br></a>引用量：1</p>
+</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Klein_Associating_Neural_Word_2015_CVPR_paper.pdf" target="_blank" rel="noopener">Associating Neural Word Embeddings with Deep Image Representations using Fisher Vectors<br></a> 引用量：21</p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/app/2B_012_ext.pdf" target="_blank" rel="noopener">Deep correlation for matching images and text<br></a> 引用量：31 <br>采用 canonical correlation analysis 作为目标函数，但这种目标函数不容易求导</p>
+</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1601.03478" target="_blank" rel="noopener">Deep Learning Applied to Image and Text Matching<br></a>引用量：0 <br>类似综述类的一类文章，文章很长，但是在后半段作者阐述了自己的工作。总的来说，前面的综述部分还可以。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>基于生成</p>
+<ul>
+<li><p>ICLR</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1412.6632v5" target="_blank" rel="noopener">Deep Captioning with Multimodal Recurrent Neural Networks (m-RNN)<br></a>引用量：181</li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1411.4555" target="_blank" rel="noopener">Show and Tell: A Neural Image Caption Generator<br></a>作者：Bengio 引用量：583</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Image Matching</p>
+<ul>
+<li><p>ICCV&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1505.04845" target="_blank" rel="noopener">Multi-Image Matching via Fast Alternating Minimization<br></a>引用量：7</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Image Caption &amp; Image Annonation</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1412.2306" target="_blank" rel="noopener">Deep Visual-Semantic Alignments for Generating Image Descriptions<br></a>引用量：535</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1411.5654" target="_blank" rel="noopener">Learning a Recurrent Visual Representation for Image Caption Generation<br></a>引用量：76</p>
+</li>
+</ul>
+</li>
+<li><p>ICML&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1502.03044" target="_blank" rel="noopener">Show, Attend and Tell: Neural Image Caption Generation with Visual Attention<br></a>引用量：537</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1502.03671" target="_blank" rel="noopener">Phrase-based Image Captioning<br></a>引用量：26</p>
+</li>
+</ul>
+</li>
+<li><p>ICCV&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1509.04942" target="_blank" rel="noopener">Guiding Long-Short Term Memory for Image Caption Generation<br></a>引用量：1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>图像语义分割</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1411.4038" target="_blank" rel="noopener">Fully Convolutional Networks for Semantic Segmentation<br></a>引用量：902</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Multi-task learning</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Pentina_Curriculum_Learning_of_2015_CVPR_paper.pdf" target="_blank" rel="noopener">Curriculum Learning of Multiple Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>VQA</p>
+<ul>
+<li><p>ICCV&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1505.01121" target="_blank" rel="noopener">Ask Your Neurons: A Neural-based Approach to Answering Questions about Images<br></a></p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Antol_VQA_Visual_Question_ICCV_2015_paper.pdf" target="_blank" rel="noopener">VQA: Visual Question Answering<br></a><br>  提出了目前最大的数据集mscocoQA 网页：<a href="http://www.visualqa.org/" target="_blank" rel="noopener">http://www.visualqa.org/</a></p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1506.00278" target="_blank" rel="noopener">Visual Madlibs: Fill in the blank Image Generation and Question Answering</a></p>
+</li>
+</ul>
+</li>
+<li><p>NIPS&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1505.02074" target="_blank" rel="noopener">Exploring Models and Data for Image Question Answering<br></a></li>
+</ul>
+</li>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Lin_Dont_Just_Listen_2015_CVPR_paper.pdf" target="_blank" rel="noopener">Don’t Just Listen, Use Your Imagination: Leveraging Visual Common Sense for Non-Visual Tasks</a></p>
+</li>
+<li><p><a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Sadeghi_VisKE_Visual_Knowledge_2015_CVPR_paper.pdf" target="_blank" rel="noopener">VisKE: Visual Knowledge Extraction and Question Answering by Visual Verification of Relation Phrases</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2014"><a href="#2014" class="headerlink" title="2014"></a>2014</h3><ul>
+<li><p>基于检索</p>
+<ul>
+<li><p>NIPS&ensp;<font color="red">A类</font></p>
+<ul>
+<li><p><a href="https://arxiv.org/abs/1406.5679" target="_blank" rel="noopener">Deep Fragment Embeddings for Bidirectional Image Sentence Mapping<br></a>引用量:161</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1411.2539" target="_blank" rel="noopener">Unifying Visual-Semantic Embeddings with Multimodal Neural Language Models<br></a>引用量：202</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>基于生成</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1411.4952v3" target="_blank" rel="noopener">From Captions to Visual Concepts and Back<br></a>引用量:180</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Visual Grounding</p>
+</li>
+<li><p>Multimodal Representations</p>
+<ul>
+<li><p>TPAMI&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://core.ac.uk/download/pdf/19967857.pdf" target="_blank" rel="noopener">Spherical and Hyperbolic Embeddings of Data<br></a></li>
+</ul>
+</li>
+<li><p>ICML</p>
+<ul>
+<li><a href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2014c2_kiros14.pdf" target="_blank" rel="noopener">Multimodal neural language models</a><br>  log-bilinear nerual language models</li>
+</ul>
+</li>
+<li><p>arXiv</p>
+<ul>
+<li><a href="http://www.cs.cmu.edu/~ark/EMNLP-2015/proceedings/VL/pdf/VL04.pdf" target="_blank" rel="noopener">Explain images with multi-modal recurrent neural networks</a><br>  RNN</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Image Caption &amp; Image Annonation</p>
+<ul>
+<li><p>Meeting of the Association for Computational Linguistics</p>
+<ul>
+<li><a href="http://acl2014.org/acl2014/P14-2/xml/P14-2074.xhtml" target="_blank" rel="noopener">Comparing Automatic Evaluation Measures for Image Description<br></a>引用量：42 论文比较了几种常见的图像描述问题的评价方法</li>
+</ul>
+</li>
+<li><p>Computer Science</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1410.1090?context=cs.CV" target="_blank" rel="noopener">Explain Images with Multimodal Recurrent Neural Networks<br></a>引用量：94</li>
+</ul>
+</li>
+<li><p>ICLR</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1312.4894" target="_blank" rel="noopener">Deep Convolutional Ranking for Multilabel Image Annotation<br></a>引用量：71</li>
+</ul>
+</li>
+<li><p>ECCV</p>
+<ul>
+<li><a href="http://slazebni.cs.illinois.edu/publications/yunchao_eccv14_sentence.pdf" target="_blank" rel="noopener">Improving Image-Sentence Embeddings Using Large Weakly Annotated Photo Collections</a><br>  normalized CCA</li>
+</ul>
+</li>
+<li><p>TACL</p>
+<ul>
+<li><a href="http://www.cl.uni-heidelberg.de/courses/ws14/deepl/SocherETAL14.pdf" target="_blank" rel="noopener">Grounded compositional semantics for findingand describing images with sentences</a><br>  dependency tree recursive networks</li>
+</ul>
+</li>
+<li><p>ACL 2014 Workshop on Semantic Parsing</p>
+<ul>
+<li><a href="">A deeparchitecture for semantic parsing</a><br>  proposed a two-step embedding and generation procedure for semantic parsing.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>VQA</p>
+<ul>
+<li><p>NIPS&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1410.0210v2" target="_blank" rel="noopener">A Multi-World Approach to Question Answering about Real-World Scenes based on Uncertain Input<br></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>图像语义分割</p>
+<ul>
+<li><p>CVPR&ensp;<font color="red">A类</font></p>
+<ul>
+<li><a href="https://arxiv.org/abs/1311.2524" target="_blank" rel="noopener">Rich feature hierarchies for accurate object detection and semantic segmentation Tech report (v5)<br></a>引用量：1969</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2013-or-before"><a href="#2013-or-before" class="headerlink" title="2013 or before"></a>2013 or before</h3><ul>
+<li><p>Image Retrieval</p>
+<ul>
+<li><p>TPAMI&ensp;<font color="red">A类</font></p>
+<ul>
+<li>2007–<a href="https://www.cs.swarthmore.edu/~turnbull/cs97/f09/paper/pami07-semantics.pdf" target="_blank" rel="noopener">Supervised Learning of Semantic Classes for Image Annotation and Retrieval<br></a> 引用量：980</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Multimodal Learning</p>
+<ul>
+<li><p>NIPS&ensp;<font color="red">A类</font></p>
+<ul>
+<li>2012–<a href="http://datascienceassn.org/sites/default/files/Multimodal%20Learning%20with%20Deep%20Boltzmann%20Machines.pdf" target="_blank" rel="noopener">Multimodal Learning with Deep Boltzmann Machines<br></a> 引用量：362 </li>
+</ul>
+</li>
+<li><p>ICML</p>
+<ul>
+<li><a href="http://ai.stanford.edu/~ang/papers/nipsdlufl10-MultimodalDeepLearning.pdf" target="_blank" rel="noopener">Mul-timodal deep learning</a><br>  autoencoders</li>
+</ul>
+</li>
+<li><p>ICCV</p>
+<ul>
+<li>2011–<a href="http://people.eecs.berkeley.edu/~trevor/iccv11-mm.pdf" target="_blank" rel="noopener">Learning cross-modality similarity formultinomial data</a><br>  topic models</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="kernel-CCA-normalized-CCA"><a href="#kernel-CCA-normalized-CCA" class="headerlink" title="kernel CCA normalized CCA"></a>kernel CCA normalized CCA</h3>
+      
+    </div>
+    
+    
+    
+
+  <div>
+    
+      
+
+    
+  </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持是我前进的动力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="Artemis 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Artemis 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Artemis
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/" title="Image-Text matching papper">http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Image-Text-matching/" rel="tag"><i class="fa fa-tag"></i> Image-Text matching</a>
+          
+            <a href="/tags/papper/" rel="tag"><i class="fa fa-tag"></i> papper</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/13/2017-5-14-pythondecorator/" rel="next" title="Python 装饰器">
+                <i class="fa fa-chevron-left"></i> Python 装饰器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/23/2017-05-23-linuxfind/" rel="prev" title="Linux中命令和文件的查询">
+                Linux中命令和文件的查询 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Artemis" />
+            
+              <p class="site-author-name" itemprop="name">Artemis</p>
+              <p class="site-description motion-element" itemprop="description">如果生命是一条孤独的河流，那么谁是我灵魂的摆渡人。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/moonccl" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="15764236514@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/fba10927bf5e" target="_blank" title="简书">
+                    
+                      <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/u010843612" target="_blank" title="csdn">
+                    
+                      <i class="fa fa-fw fa-stack-exchange"></i>csdn</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.52nlp.cn/" title="我爱自然语言处理" target="_blank">我爱自然语言处理</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.52ml.net/" title="我爱机器学习" target="_blank">我爱机器学习</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.jiqizhixin.com/" title="机器之心" target="_blank">机器之心</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2017"><span class="nav-number">1.1.</span> <span class="nav-text">2017</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2016"><span class="nav-number">1.2.</span> <span class="nav-text">2016</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2015"><span class="nav-number">1.3.</span> <span class="nav-text">2015</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2014"><span class="nav-number">1.4.</span> <span class="nav-text">2014</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2013-or-before"><span class="nav-number">1.5.</span> <span class="nav-text">2013 or before</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kernel-CCA-normalized-CCA"><span class="nav-number">1.6.</span> <span class="nav-text">kernel CCA normalized CCA</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Artemis</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <!--<i class="fa fa-area-chart"></i>-->
+      <i class="fa fa-pencil"></i>
+    </span>
+    
+      <span class="post-meta-item-text">博客全站字数&#58;</span>
+    
+    <span title="博客全站字数">63.6k</span>
+  
+</div>
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytpyjTGe';
+      var conf = 'd5f9c245b7de682a44a3b55b07abb4de';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FaMv5FCCofLPtvUztWo0uqb6-gzGzoHsz", "2QIPFp7TgmK7nTuRgQNI6gWi");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="/live2d/script.js"></script>
+    <canvas id="live2dcanvas" width="150" height="300" class="live2d"></canvas>
+    <style>
+      #live2dcanvas {
+        position: fixed;
+        right: 0px;
+        z-index: 999;
+        pointer-events: none;
+        bottom: -30px;
+      }
+    </style>
+    <script>loadlive2d("live2dcanvas" ,"/live2d/assets/nito/nito.model.json",0.5)</script>
+  
+</body>
+</html>
