@@ -22,8 +22,8 @@
   <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
   <script>
     (function(){
-        if('1314'){
-            if (prompt('请输入文章密码') !== '1314'){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
                 alert('密码错误！');
                 history.back();
             }
@@ -98,18 +98,18 @@
 
 
 
-<meta name="description" content="##  sed&amp;ensp;&amp;ensp;&amp;ensp;sed(stream editor)流编辑器  sed -n 取消自动打印（sed会自动将全部未过滤内容输出） sed -i 将更改作用到源文件，不加-i则只会把sed的输出修改而不会改变源文件  &amp;ensp;&amp;ensp;&amp;ensp;sed替换用法：  sed &amp;#39;s#string1#string2#g&amp;#39; filename&amp;ensp;">
+<meta name="description" content="sed(stream editor)流编辑器，是linux文本处理三剑客之一，功能强大，跟awk不同，它主要是用来取行。 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWIlSOobmi8nGpV4dyipC731EqoEr7k7hFge9M7pBA/KpOnteaIRPF/sSzzyGsmNEO2yEnNbSpFIOPninTkWNFjAEvAO9ku1IUFle">
 <meta name="keywords" content="linux,sed">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux三剑客之sed">
 <meta property="og:url" content="http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/index.html">
 <meta property="og:site_name" content="承影">
-<meta property="og:description" content="##  sed&amp;ensp;&amp;ensp;&amp;ensp;sed(stream editor)流编辑器  sed -n 取消自动打印（sed会自动将全部未过滤内容输出） sed -i 将更改作用到源文件，不加-i则只会把sed的输出修改而不会改变源文件  &amp;ensp;&amp;ensp;&amp;ensp;sed替换用法：  sed &amp;#39;s#string1#string2#g&amp;#39; filename&amp;ensp;">
+<meta property="og:description" content="sed(stream editor)流编辑器，是linux文本处理三剑客之一，功能强大，跟awk不同，它主要是用来取行。 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWIlSOobmi8nGpV4dyipC731EqoEr7k7hFge9M7pBA/KpOnteaIRPF/sSzzyGsmNEO2yEnNbSpFIOPninTkWNFjAEvAO9ku1IUFle">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-25T02:22:05.465Z">
+<meta property="og:updated_time" content="2018-01-31T16:02:20.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux三剑客之sed">
-<meta name="twitter:description" content="##  sed&amp;ensp;&amp;ensp;&amp;ensp;sed(stream editor)流编辑器  sed -n 取消自动打印（sed会自动将全部未过滤内容输出） sed -i 将更改作用到源文件，不加-i则只会把sed的输出修改而不会改变源文件  &amp;ensp;&amp;ensp;&amp;ensp;sed替换用法：  sed &amp;#39;s#string1#string2#g&amp;#39; filename&amp;ensp;">
+<meta name="twitter:description" content="sed(stream editor)流编辑器，是linux文本处理三剑客之一，功能强大，跟awk不同，它主要是用来取行。 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWIlSOobmi8nGpV4dyipC731EqoEr7k7hFge9M7pBA/KpOnteaIRPF/sSzzyGsmNEO2yEnNbSpFIOPninTkWNFjAEvAO9ku1IUFle">
 
 
 
@@ -423,7 +423,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,369
+                  1,411
                 </span>
               
 
@@ -460,18 +460,18 @@
       
 
       
-        <p>## </p>
-<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>&ensp;&ensp;&ensp;sed(stream editor)流编辑器</p>
-<ul>
-<li>sed -n 取消自动打印（sed会自动将全部未过滤内容输出）</li>
-<li>sed -i 将更改作用到源文件，不加<code>-i</code>则只会把<code>sed</code>的输出修改而不会改变源文件</li>
+        <p><blockquote><br>sed(stream editor)流编辑器，是linux文本处理三剑客之一，功能强大，跟awk不同，它主要是用来取行。</blockquote></p>
+<p>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWIlSOobmi8nGpV4dyipC731EqoEr7k7hFge9M7pBA/KpOnteaIRPF/sSzzyGsmNEO2yEnNbSpFIOPninTkWNFjAEvAO9ku1IUFle2TplsToMJd7wwrCB5G7I09MxXpJKKaT7ZNMvFaLV6+d7ZN3ktGUK45ksgqiHjwo4tBPBiQP8r2apNvzTLiY5D6mZGd9C7gchc0az61Cl3XBLY0MpIYqQCUGxU4U9UQzvYxlXPsX0b/BEUVyUDKAQem2uSYkJIfrkaM0Jlf6nQqwxqnGVs9fEGo+YhIoeyvBz7vXVpbmOYLqu0/vMcWysTZcHiAYvlOxF54wGwQ/kDf3hascpB caochenglong@caochenglongdeMacBook-Pro.local</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p><code>sed [options] [sed-command] [input]</code></p>
+<h3 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><code>-n</code> 取消自动打印（sed会自动将全部未过滤内容输出）</li>
+<li><code>-i</code> 将更改作用到源文件，不加<code>-i</code>则只会把<code>sed</code>的输出修改而不会改变源文件</li>
 </ul>
 <p>&ensp;&ensp;&ensp;sed替换用法：</p>
 <ul>
 <li><code>sed &#39;s#string1#string2#g&#39; filename</code><br>&ensp;&ensp;&ensp;其中<code>s</code>代表<code>sub</code>，意思是替换，<code>#</code>是分隔符，<code>string1</code>要替换的文本，<code>string1</code>要替换成的文件，<code>g</code>是<code>global</code>全局的意思，可以不带<code>g</code>，不带<code>g</code>的意思是值替换第一个（想想<code>vim</code>中的替换）。<br>&ensp;&ensp;&ensp;<code>#</code>可以换成别的字符，但是要换的话，3个<code>#</code>都得换，换成的字符不能是<code>s</code>、<code>g</code>（当<code>s</code>或<code>g</code>出现在命令体中时）或<code>string1</code>和<code>string2</code>中的任何字符，如果非得使用上述字符，则加反斜线<code>\\</code>。<br>sed 流编辑器 增删改查 过滤 取行<a id="more"></a>
 </li>
 </ul>
-<p>sed [options] [sed-command] [input]</p>
 <p><code>sed命令</code>前面可以加地址范围<code>n1[,n2]</code></p>
 <ul>
 <li><code>10[sed-command]</code></li>
@@ -581,7 +581,7 @@
   <p><span>本文标题:</span><a href="/2017/11/03/2017-11-4-linuxsed/">Linux三剑客之sed</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Artemis 的个人博客">Artemis</a></p>
   <p><span>发布时间:</span>2017年11月03日 - 22:11</p>
-  <p><span>最后更新:</span>2018年01月25日 - 10:01</p>
+  <p><span>最后更新:</span>2018年02月01日 - 00:02</p>
   <p><span>原始链接:</span><a href="/2017/11/03/2017-11-4-linuxsed/" title="Linux三剑客之sed">http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/"  aria-label="复制成功！"></i></span>
   </p>
@@ -798,7 +798,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -820,7 +820,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-count">73</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -910,7 +910,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sed"><span class="nav-number">1.</span> <span class="nav-text">sed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增删改查"><span class="nav-number">2.</span> <span class="nav-text">增删改查</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项"><span class="nav-number">2.</span> <span class="nav-text">选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增删改查"><span class="nav-number">3.</span> <span class="nav-text">增删改查</span></a></li></ol></div>
             
 
           </div>
@@ -946,7 +946,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">博客全站字数&#58;</span>
     
-    <span title="博客全站字数">63.6k</span>
+    <span title="博客全站字数">64.9k</span>
   
 </div>
 

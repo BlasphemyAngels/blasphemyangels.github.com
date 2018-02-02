@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://augustineccl.com/2018/02/02/2018-02-01-dptreezhongxin/</loc>
+    
+    <lastmod>2018-02-02T15:11:15.327Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://augustineccl.com/2018/02/01/2018-02-01-dptaotao/</loc>
+    
+    <lastmod>2018-02-01T05:16:43.724Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/</loc>
+    
+    <lastmod>2018-01-31T16:02:20.079Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://augustineccl.com/2018/01/31/2018-1-30-chiji/</loc>
     
-    <lastmod>2018-01-31T06:56:02.336Z</lastmod>
+    <lastmod>2018-01-31T07:14:31.850Z</lastmod>
     
   </url>
   
@@ -12,13 +33,6 @@
     <loc>http://augustineccl.com/tags/index.html</loc>
     
     <lastmod>2018-01-25T02:22:05.467Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://augustineccl.com/2018/01/09/2018-1-8-hadoopcluster/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.466Z</lastmod>
     
   </url>
   
@@ -37,14 +51,14 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/06/30/2017-6-30-linuxuniq/</loc>
+    <loc>http://augustineccl.com/2018/01/09/2018-1-8-hadoopcluster/</loc>
     
-    <lastmod>2018-01-25T02:22:05.465Z</lastmod>
+    <lastmod>2018-01-25T02:22:05.466Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/08/01/2017-8-1-linuxsort/</loc>
+    <loc>http://augustineccl.com/2017/05/13/2017-5-14-pythondecorator/</loc>
     
     <lastmod>2018-01-25T02:22:05.465Z</lastmod>
     
@@ -58,14 +72,14 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/11/03/2017-11-4-linuxsed/</loc>
+    <loc>http://augustineccl.com/2017/08/01/2017-8-1-linuxsort/</loc>
     
     <lastmod>2018-01-25T02:22:05.465Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/05/13/2017-5-14-pythondecorator/</loc>
+    <loc>http://augustineccl.com/2017/06/30/2017-6-30-linuxuniq/</loc>
     
     <lastmod>2018-01-25T02:22:05.465Z</lastmod>
     
@@ -93,14 +107,14 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/11/07/2017-11-07-awk/</loc>
+    <loc>http://augustineccl.com/2017/11/05/2017-11-05-sources/</loc>
     
     <lastmod>2018-01-25T02:22:05.460Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/11/05/2017-11-05-sources/</loc>
+    <loc>http://augustineccl.com/2017/11/07/2017-11-07-awk/</loc>
     
     <lastmod>2018-01-25T02:22:05.460Z</lastmod>
     
@@ -135,6 +149,13 @@
   </url>
   
   <url>
+    <loc>http://augustineccl.com/2017/10/24/2017-10-24-LSTMC/</loc>
+    
+    <lastmod>2018-01-25T02:22:05.459Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://augustineccl.com/2017/10/23/2017-10-22-POI2Vec/</loc>
     
     <lastmod>2018-01-25T02:22:05.459Z</lastmod>
@@ -149,21 +170,7 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/10/24/2017-10-24-LSTMC/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.459Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://augustineccl.com/2017/10/16/2017-10-16-2017cvprimagecaption/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.458Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://augustineccl.com/2017/10/11/2017-10-10-eforest/</loc>
     
     <lastmod>2018-01-25T02:22:05.458Z</lastmod>
     
@@ -177,9 +184,23 @@
   </url>
   
   <url>
+    <loc>http://augustineccl.com/2017/10/11/2017-10-10-eforest/</loc>
+    
+    <lastmod>2018-01-25T02:22:05.458Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://augustineccl.com/2017/09/26/2017-09-26-regexptest/</loc>
     
     <lastmod>2018-01-25T02:22:05.458Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://augustineccl.com/2017/09/07/2017-09-06-GAN/</loc>
+    
+    <lastmod>2018-01-25T02:22:05.457Z</lastmod>
     
   </url>
   
@@ -198,21 +219,14 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/09/07/2017-09-06-GAN/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.457Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://augustineccl.com/2017/08/25/2017-08-25-vireg/</loc>
+    <loc>http://augustineccl.com/2017/09/21/2017-08-30-hexowww/</loc>
     
     <lastmod>2018-01-25T02:22:05.456Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/09/21/2017-08-30-hexowww/</loc>
+    <loc>http://augustineccl.com/2017/08/25/2017-08-25-vireg/</loc>
     
     <lastmod>2018-01-25T02:22:05.456Z</lastmod>
     
@@ -233,13 +247,6 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/08/03/2017-08-03-linuxsusualorder/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.455Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://augustineccl.com/2017/07/25/2017-07-25-lex/</loc>
     
     <lastmod>2018-01-25T02:22:05.455Z</lastmod>
@@ -247,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/07/21/2017-07-21-nlptools/</loc>
+    <loc>http://augustineccl.com/2017/08/03/2017-08-03-linuxsusualorder/</loc>
     
     <lastmod>2018-01-25T02:22:05.455Z</lastmod>
     
@@ -261,14 +268,21 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/07/25/2017-07-15-neo4jstart/</loc>
+    <loc>http://augustineccl.com/2017/07/21/2017-07-21-nlptools/</loc>
+    
+    <lastmod>2018-01-25T02:22:05.455Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://augustineccl.com/2017/07/17/2017-07-17-scrapystart/</loc>
     
     <lastmod>2018-01-25T02:22:05.454Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/07/17/2017-07-17-scrapystart/</loc>
+    <loc>http://augustineccl.com/2017/07/25/2017-07-15-neo4jstart/</loc>
     
     <lastmod>2018-01-25T02:22:05.454Z</lastmod>
     
@@ -317,13 +331,6 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/</loc>
-    
-    <lastmod>2018-01-25T02:22:05.452Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://augustineccl.com/2017/05/23/2017-05-23-linuxfind/</loc>
     
     <lastmod>2018-01-25T02:22:05.452Z</lastmod>
@@ -338,6 +345,13 @@
   </url>
   
   <url>
+    <loc>http://augustineccl.com/2017/05/22/2017-05-25-imagetextpapper/</loc>
+    
+    <lastmod>2018-01-25T02:22:05.452Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://augustineccl.com/2017/09/10/2017-05-06-EM/</loc>
     
     <lastmod>2018-01-25T02:22:05.451Z</lastmod>
@@ -345,14 +359,14 @@
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/03/25/2017-03-25-pandas/</loc>
+    <loc>http://augustineccl.com/2017/03/29/2017-03-29-install/</loc>
     
     <lastmod>2018-01-25T02:22:05.451Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://augustineccl.com/2017/03/29/2017-03-29-install/</loc>
+    <loc>http://augustineccl.com/2017/03/25/2017-03-25-pandas/</loc>
     
     <lastmod>2018-01-25T02:22:05.451Z</lastmod>
     
